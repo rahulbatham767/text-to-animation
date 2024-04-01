@@ -63,8 +63,8 @@ const LogoRemover = () => {
   };
 
   return (
-    <div className="flex justify-center   items-center  w-full flex-col">
-      <div className="p-8 bg-transparent text-white rounded-lg shadow-md flex space-x-8 items-center">
+    <div className="flex justify-center   items-center   w-full flex-col">
+      <div className="p-8 bg-transparent text-white rounded-lg shadow-md flex flex-col space-x-8 items-center">
         <h1 className="text-3xl font-bold mb-4">Logo Remover</h1>
         <div className="flex flex-col items-center">
           <div className="flex flex-col items-center">

@@ -22,8 +22,8 @@ const DragAndDropTextFile = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen ">
-      <div className="flex bg-slate-400  rounded-lg p-3">
+    <div className="flex justify-center items-center flex-wrap h-screen ">
+      <div className="flex bg-slate-400 flex-wrap  rounded-lg p-3">
         <div
           className="border-2 border-dashed bg-slate-600  border-gray-400 p-4 rounded-lg"
           onDrop={handleDrop}
@@ -37,21 +37,21 @@ const DragAndDropTextFile = () => {
             readOnly
           />
         </div>
-        <div className="ml-4 shadow-lg border p-3 rounded-lg">
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt="Image"
-              className="w-64 h-64 object-cover rounded-lg"
-            />
-          ) : (
-            <div className="relative z-500">
-              <p className=" shadow-lg  text-white font-semibold text-2xl">
-                No image to display
-              </p>
-            </div>
-          )}
-        </div>
+      </div>{" "}
+      <div className="ml-4 shadow-lg border p-3 rounded-lg">
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt="Image"
+            className="w-64 h-64 object-cover rounded-lg"
+          />
+        ) : (
+          <div className="relative z-500 w-5/6 items-center flex justify-center h-52 ">
+            <p className=" text-center  shadow-lg  text-white font-semibold text-2xl">
+              No image to display
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

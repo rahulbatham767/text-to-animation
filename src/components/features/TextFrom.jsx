@@ -46,13 +46,13 @@ export const TextForm = () => {
   return (
     <>
       <div
-        className="flex shadow card mb-4 border container mx-auto p-5 rounded-lg m-10 h-full "
+        className="flex shadow card mb-4 border container mx-auto p-5 rounded-lg m-10 h-full flex-wrap"
         style={{
           color: "white",
         }}
       >
-        <div className="container my-5 flex ">
-          <div className="w-6/12">
+        <div className="container my-5 flex flex-wrap ">
+          <div className="w-full md:w-1/2">
             <h2 className="text-2xl">Text Manipulation</h2>
             <div className="mb-3 my-3">
               <textarea
@@ -98,17 +98,7 @@ export const TextForm = () => {
             </div>
           </div>
 
-          <hr
-            className="transform rotate-180 rounded-lg ml-4"
-            style={{
-              rotate: "180deg",
-              width: "1px",
-              height: "100%",
-              border: "1px solid",
-            }}
-          />
-
-          <div className="w-6/12 ml-6">
+          <div className=" w-full md:w-1/2 p-2">
             <h4 className="text-xl">Preview</h4>
             <p>{text.length > 0 ? text : "Enter Something Here to Preview"}</p>
           </div>

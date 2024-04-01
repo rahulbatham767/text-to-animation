@@ -62,12 +62,12 @@ const Home = () => {
 
   return (
     <div className=" mx-auto ">
-      <div className=" container flex items-center justify-center">
+      <div className=" container flex items-center justify-center flex-wrap">
         <div
-          className="z-10 opacity-1  items-center justify-center"
+          className="z-10 opacity-1 items-center justify-center"
           ref={container}
         >
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <div className=" text-move text-5xl rounded-sm font-semibold shadow-md mx-auto text-center font-poplin text-white ">
               Welcome To <br /> Text Animation Maker
             </div>
@@ -109,7 +109,7 @@ const Home = () => {
             }}
           />
         )}
-        <div className="ml-5">
+        <div className="ml-5 mt-4">
           <VerticalCarousel data={backgroundImage} />
         </div>
       </div>
