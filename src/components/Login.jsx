@@ -34,7 +34,7 @@ const Login = ({ getLogin }) => {
     });
 
     axios
-      .post("http://localhost:8080/api/v1/user/login", formData)
+      .post("https://text-to-animation-backend.vercel.app/login", formData)
       .then((Response) => {
         localStorage.setItem("user", Response.data);
         localStorage.setItem("login", Response.data.authtoken);
