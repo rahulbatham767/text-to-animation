@@ -33,7 +33,10 @@ const Register = () => {
     });
 
     axios
-      .post("https://text-to-animation-backend.vercel.app/register", formData)
+      .post(
+        "https://text-to-animation-backend.vercel.app/api/v1/user/register",
+        formData
+      )
       .then((Response) => {
         localStorage.setItem("user", JSON.stringify(Response.data));
         localStorage.setItem("login", JSON.stringify(Response.data.authtoken));
