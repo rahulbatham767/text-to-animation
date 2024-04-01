@@ -1,0 +1,55 @@
+.toggle-container {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  /* Add other styling for the container */
+}
+
+.toggle-checkbox {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s ease all;
+  transition: 0.4s ease all;
+  border-radius: 34px;
+}
+
+.toggle-checkbox:checked + .toggle-slider {
+  background-color: #212529;
+}
+
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s ease all;
+  transition: 0.4s ease all;
+  border-radius: 50%;
+}
+
+.toggle-checkbox:checked + .toggle-slider:before {
+  left: calc(100% - 4px);
+}
+.toggle-label {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  line-height: 34px; /* Adjust for vertical alignment */
+  color: #fff; /* Change text color to white */
+}
