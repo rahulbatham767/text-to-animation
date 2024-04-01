@@ -19,7 +19,7 @@ const DemoPage = () => {
     <div className="flex items-center justify-center   p-16">
       <div className="w-full max-w-xl  px-4 flex pb-14 flex-col items-center justify-center">
         {/* Left side: Input field */}
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full items-center justify-center">
           <div className="w-3/5">
             <div className="h-full bg-black bg-opacity-50 rounded-lg p-4">
               <p className="text-white p-2 rounded-lg bg-gray-700 bg-opacity-80">
@@ -46,7 +46,7 @@ const DemoPage = () => {
         </div>
 
         {/* Right side: Image */}
-        <div className="   w-6xl mt-7 relative scaleUp rounded-xl">
+        <div className="   w-6xl mt-7 relative scaleUp rounded-xl  flex items-center justify-center">
           <div className="w-3/5 relative rounded-xl">
             <img
               src={cat}

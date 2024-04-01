@@ -55,7 +55,7 @@ const Login = ({ getLogin }) => {
   };
 
   return (
-    <div className="container mx-auto mt-8 bg-gray-100 bg-opacity-50 p-8 rounded-lg w-6/12">
+    <div className="container mx-auto mt-8 bg-gray-100 bg-opacity-50 p-8 rounded-lg sm:w-1/2">
       <h2 className="text-3xl font-bold text-white mb-4">Login</h2>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-6">
