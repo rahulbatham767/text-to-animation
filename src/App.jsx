@@ -18,8 +18,46 @@ import { TextForm } from "./components/features/TextFrom";
 import { Toaster } from "react-hot-toast";
 import ErrorPage from "./components/ErrorPage";
 import LogoRemover from "./components/features/LogoRemover";
+import FeedbackPage from "./components/FeedbackPage";
 function App() {
   const { login, logout, user } = useAuth();
+
+  let logoutTimer;
+
+  useEffect(() => {
+    const startLogoutTimer = () => {
+      logoutTimer = setTimeout(() => {
+        logoutUser();
+      }, 1 * 60 * 1000); // 5 minutes in milliseconds
+    };
+
+    const resetLogoutTimer = () => {
+      clearTimeout(logoutTimer);
+      startLogoutTimer();
+    };
+
+    const logoutUser = () => {
+      // Perform logout action (e.g., redirect to logout page or send logout request to server)
+      console.log("User logged out due to inactivity");
+      logout();
+    };
+
+    // Event listeners to reset timer on user activity
+    document.addEventListener("mousemove", resetLogoutTimer);
+    document.addEventListener("keypress", resetLogoutTimer);
+    document.addEventListener("click", resetLogoutTimer);
+
+    // Start the logout timer initially
+    startLogoutTimer();
+
+    // Cleanup function to remove event listeners
+    return () => {
+      document.removeEventListener("mousemove", resetLogoutTimer);
+      document.removeEventListener("keypress", resetLogoutTimer);
+      document.removeEventListener("click", resetLogoutTimer);
+      clearTimeout(logoutTimer);
+    };
+  }, []); // Only run this effect once after the component mounts
 
   return (
     <>
@@ -54,6 +92,11 @@ function App() {
             exact
             path="/text-form"
             element={<ProtectedRoute element={TextForm} />}
+          />
+          <Route
+            exact
+            path="/feedback"
+            element={<ProtectedRoute element={FeedbackPage} />}
           />
           <Route
             exact

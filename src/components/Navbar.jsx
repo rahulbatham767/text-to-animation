@@ -53,6 +53,7 @@ const Navbar = () => {
               <CustomNavLink to="/dragable">File To Text</CustomNavLink>
               <CustomNavLink to="/text-form"> Text Style</CustomNavLink>
               <CustomNavLink to="/logo-remover"> Logo Remover</CustomNavLink>
+              <CustomNavLink to="/feedback"> Feedback</CustomNavLink>
             </div>
           )}
         </div>

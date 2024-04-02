@@ -14,34 +14,35 @@ const Home = () => {
     setSearchTerm(event.target.value);
   };
 
-  const apikey =
-    "7e150b83e179f64752e36ec2e83dc89d654687cee8c92f3271e3db86170b688f4596bdfad0b6bc78b557ab76af883f57";
-
   const generateImageForCarousel = async (searchTerm) => {
     setIsGeneratingImage(true); // Set generating state
     const formData = new FormData();
     formData.append("prompt", searchTerm);
 
-    axios
-      .post("https://clipdrop-api.co/text-to-image/v1", formData, {
-        headers: {
-          "x-api-key": apikey,
-        },
-        responseType: "arraybuffer",
-      })
-      .then((response) => {
-        const arrayBuffer = response.data;
-        const base64 = btoa(
-          String.fromCharCode.apply(null, new Uint8Array(arrayBuffer))
-        );
-        setBackgroundImage(`data:image/png;base64,${base64}`); // Assuming PNG format
-        setIsGeneratingImage(false); // Reset generating state
-      })
-      .catch((error) => {
-        console.error("Error generating image:", error);
-        setIsGeneratingImage(false); // Reset generating state
-        // Update state to display error message
-      });
+    try {
+      const response = await axios.post(
+        "https://ai-api.magicstudio.com/api/ai-art-generator",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "User-Agent": "Unstabli", // You may need to set the proper user agent
+            Origin: "https://magicstudio.com",
+          },
+        }
+      );
+
+      const arrayBuffer = response.data;
+      const base64 = btoa(
+        String.fromCharCode.apply(null, new Uint8Array(arrayBuffer))
+      );
+      setBackgroundImage(`data:image/png;base64,${base64}`); // Assuming PNG format
+      setIsGeneratingImage(false); // Reset generating state
+    } catch (error) {
+      console.error("Error generating image:", error);
+      setIsGeneratingImage(false); // Reset generating state
+      // Update state to display error message
+    }
   };
 
   useGSAP(
