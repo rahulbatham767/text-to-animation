@@ -19,11 +19,17 @@ import { Toaster } from "react-hot-toast";
 import ErrorPage from "./components/ErrorPage";
 import LogoRemover from "./components/features/LogoRemover";
 import FeedbackPage from "./components/FeedbackPage";
+import Loader from "./components/custom/Loader";
 function App() {
   const { login, logout, user } = useAuth();
+  const [loading, setLoading] = useState(
+    JSON.parse(localStorage.getItem("loading")) || false
+  );
 
   let logoutTimer;
-
+  useEffect(() => {
+    localStorage.setItem("loading", JSON.stringify(loading));
+  }, [loading]);
   useEffect(() => {
     const startLogoutTimer = () => {
       logoutTimer = setTimeout(() => {
@@ -85,6 +91,7 @@ function App() {
             },
           }}
         />
+        {loading && <Loader display="hidden" />}
         <Routes>
           <Route exact Component={DemoPage} path="/" />
           <Route Component={ErrorPage} path="*" />

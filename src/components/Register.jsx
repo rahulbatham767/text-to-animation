@@ -10,7 +10,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const { login, logout } = useAuth();
+  const { login, logout, setLoading, loading } = useAuth();
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,6 +22,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     // Here you can add your logic to handle form submission
     console.log(formData);
     // Reset the form
@@ -51,6 +52,7 @@ const Register = () => {
         toast.error("Registration Failed because  " + err.response.data);
         return err.message;
       });
+    setLoading(false);
   };
 
   return (
@@ -59,7 +61,7 @@ const Register = () => {
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
           <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
+            className="block text-gray-800  text-lg font-semibold mb-2"
             htmlFor="firstName"
           >
             First Name

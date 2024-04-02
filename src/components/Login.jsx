@@ -1,6 +1,6 @@
 // Login.js
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthProvider";
@@ -11,8 +11,7 @@ const Login = ({ getLogin }) => {
     password: "",
   });
 
-  const { login, logout } = useAuth();
-
+  const { login, logout, removeLoader, setLoader } = useAuth();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -22,36 +21,39 @@ const Login = ({ getLogin }) => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoader();
+
     // Here you can add your logic to handle form submission
     console.log(formData);
+
     // Reset the form
     setFormData({
       email: "",
       password: "",
     });
 
-    axios
-      .post(
+    try {
+      const response = await axios.post(
         "https://text-to-animation-backend.vercel.app/api/v1/user/login",
         formData
-      )
-      .then((Response) => {
-        localStorage.setItem("user", Response.data);
-        localStorage.setItem("login", Response.data.authtoken);
-        if (Response.data.success) {
-          login();
-          navigate("/home");
-          toast.success("Login Successful");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error(err.response.data);
-        // return err.message;
-      });
+      );
+
+      localStorage.setItem("user", response.data);
+      localStorage.setItem("login", response.data.authtoken);
+
+      if (response.data.success) {
+        login();
+        navigate("/home");
+        toast.success("Login Successful");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data);
+    }
+
+    removeLoader(); // Moved inside try-catch block
   };
 
   return (

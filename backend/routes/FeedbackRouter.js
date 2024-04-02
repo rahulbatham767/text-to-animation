@@ -22,6 +22,7 @@ router.post("/", feedbackValidationRules, async (req, res) => {
 
   // Extract feedback data from request body
   const { starRating, feedbackText } = req.body;
+  console.log(req.body);
 
   try {
     // Create a new Feedback document

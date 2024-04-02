@@ -1,21 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Textarea, Button } from "react-daisyui";
+import toast from "react-hot-toast";
+import { useAuth } from "./AuthProvider";
 
-const Rating = () => {
-  const [rating, setRating] = useState(0);
-
+const Rating = ({ starRating, setRating }) => {
   const handleClick = (newRating) => {
     setRating(newRating);
   };
-
+  const { login, logout, setLoading, loading } = useAuth();
   return (
     <div className="flex space-x-1 ">
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
           className={`cursor-pointer text-4xl ${
-            star <= rating ? "text-yellow-500" : "text-gray-300"
+            star <= starRating ? "text-yellow-500" : "text-gray-300"
           }`}
           onClick={() => handleClick(star)}
         >
@@ -27,17 +27,17 @@ const Rating = () => {
 };
 
 const FeedbackPage = () => {
-  const [rating, setRating] = useState(4);
-  const [feedback, setFeedback] = useState("");
+  const [starRating, setStarRating] = useState(0);
+  const [feedbackText, setFeedback] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here (e.g., send feedback to server)
-    console.log(`Rating: ${rating}, Feedback: ${feedback}`);
-
+    console.log(`Rating: ${starRating}, Feedback: ${feedbackText}`);
+    loading(true);
     const formData = {
-      feedbackText: feedback,
-      starRating: rating,
+      feedbackText: feedbackText,
+      starRating: starRating,
     };
     axios
       .post(
@@ -45,17 +45,17 @@ const FeedbackPage = () => {
         formData
       )
       .then((Response) => {
-        if (Response.data.success) {
+        console.log(Response);
+        if (Response.status === 201) {
           toast.success(Response.data.message);
         }
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.message);
-        return err.message;
+        toast.error(err.data.message);
       });
-
-    setRating(0);
+    setLoading(false);
+    setStarRating(0);
     setFeedback("");
   };
 
@@ -67,7 +67,7 @@ const FeedbackPage = () => {
           <label htmlFor="rating" className="block mb-2 text-lg font-medium">
             Rate Your Experience:
           </label>
-          <Rating name="rating" value={rating} onChange={setRating} />
+          <Rating starRating={starRating} setRating={setStarRating} />
         </div>
         <div className="mb-5">
           <label htmlFor="feedback" className="block mb-2 text-lg font-medium">
@@ -76,10 +76,12 @@ const FeedbackPage = () => {
           <Textarea
             id="feedback"
             name="feedback"
-            value={feedback}
+            value={feedbackText}
             onChange={(e) => setFeedback(e.target.value)}
             rows="7"
-            className="w-full"
+            placeholder="Enter your feedback"
+            className="w-full bg-transparent border-2 border-white placeholder-gray-light text-3xl"
+            required
           />
         </div>
         <Button type="submit" className="btn-primary">
