@@ -12,6 +12,7 @@ const Register = () => {
     password: "",
   });
 
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
@@ -44,12 +45,36 @@ const Register = () => {
           toast.error("Email is already registered");
         }
       });
+
+    // Here you can add your logic to handle form submission
+    console.log(formData);
+    // Reset the form
     setFormData({
       firstname: "",
       lastname: "",
       email: "",
       password: "",
     });
+
+    axios
+      .post(
+        "https://text-to-animation-backend.vercel.app/api/v1/user/register",
+        formData
+      )
+      .then((Response) => {
+        localStorage.setItem("user", JSON.stringify(Response.data));
+        localStorage.setItem("login", JSON.stringify(Response.data.authtoken));
+        if (Response.data.success) {
+          navigate("/home");
+          login();
+          toast.success("Registration Successful");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Registration Failed because  " + err.response.data);
+        return err.message;
+      });
   };
 
   return (
