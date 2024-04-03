@@ -12,19 +12,19 @@ import Login from "./components/Login";
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DemoPage from "./components/DemoPage";
-import { useAuth } from "./components/AuthProvider";
 import DragAndDropTextFile from "./components/features/DragAndDropTextFile";
 import { TextForm } from "./components/features/TextFrom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import ErrorPage from "./components/ErrorPage";
 import LogoRemover from "./components/features/LogoRemover";
 import FeedbackPage from "./components/FeedbackPage";
 import Loader from "./components/custom/Loader";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutStart, logoutSuccess } from "./app/features/AnimationSlice";
 function App() {
-  const { login, logout, user } = useAuth();
-  const [loading, setLoading] = useState(
-    JSON.parse(localStorage.getItem("loading")) || false
-  );
+  const { LoggedIn, loading } = useSelector((state) => state.TextAnimation);
+
+  const dispatch = useDispatch();
 
   let logoutTimer;
   useEffect(() => {
@@ -44,11 +44,13 @@ function App() {
 
     const logoutUser = () => {
       // Perform logout action (e.g., redirect to logout page or send logout request to server)
-      console.log("User logged out due to inactivity");
-      logout();
+      dispatch(logoutStart());
+      dispatch(logoutSuccess());
+
+      toast.success("User logged out due to inactivity");
     };
 
-    // Event listeners to reset timer on user activity
+    // Event listeners to reset timer on LoggedIn activity
     document.addEventListener("mousemove", resetLogoutTimer);
     document.addEventListener("keypress", resetLogoutTimer);
     document.addEventListener("click", resetLogoutTimer);
@@ -120,8 +122,16 @@ function App() {
             path="/dragable"
             element={<ProtectedRoute element={DragAndDropTextFile} />}
           />
-          <Route exact Component={Register} path="/register" />
-          {user ? (
+          {LoggedIn ? (
+            <Route
+              exact
+              path="/login"
+              element={<Navigate to="/home" replace />}
+            />
+          ) : (
+            <Route exact Component={Register} path="/register" />
+          )}
+          {LoggedIn ? (
             <Route
               exact
               path="/login"

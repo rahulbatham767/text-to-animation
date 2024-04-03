@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import { useDispatch, useSelector } from "react-redux";
+import { User_Register } from "../app/features/AnimationSlice";
 const Register = () => {
   const [formData, setFormData] = useState({
     firstname: "",
@@ -10,8 +11,9 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const { login, logout, setLoading, loading } = useAuth();
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -19,40 +21,35 @@ const Register = () => {
       [name]: value,
     }));
   };
-
+  const { error, success } = useSelector((state) => state.TextAnimation);
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    // Here you can add your logic to handle form submission
-    console.log(formData);
-    // Reset the form
+
+    dispatch(User_Register(formData))
+      .unwrap()
+      .then((Response) => {
+        // Check if registration was successful
+        console.log(Response);
+        if (Response.success) {
+          navigate("/home");
+          toast.success("User registered successfully");
+        } else {
+          toast.error(error); // Assuming result.message contains the error message
+        }
+      })
+      .catch((error) => {
+        console.error("Error occurred during registration:", error.Response);
+        // Handle error if needed
+        if ((error = "Request failed with status code 409")) {
+          toast.error("Email is already registered");
+        }
+      });
     setFormData({
       firstname: "",
       lastname: "",
       email: "",
       password: "",
     });
-
-    axios
-      .post(
-        "https://text-to-animation-backend.vercel.app/api/v1/user/register",
-        formData
-      )
-      .then((Response) => {
-        localStorage.setItem("user", JSON.stringify(Response.data));
-        localStorage.setItem("login", JSON.stringify(Response.data.authtoken));
-        if (Response.data.success) {
-          navigate("/home");
-          login();
-          toast.success("Registration Successful");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Registration Failed because  " + err.response.data);
-        return err.message;
-      });
-    setLoading(false);
   };
 
   return (
@@ -128,6 +125,7 @@ const Register = () => {
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
             required
+            autoComplete="true"
           />
         </div>
         <button

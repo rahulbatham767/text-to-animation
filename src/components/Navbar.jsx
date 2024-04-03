@@ -2,16 +2,17 @@
 
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
 import toast from "react-hot-toast";
 import { FaTimes, FaBars } from "react-icons/fa";
 import ThemeSwitch from "./ThemeSwitch";
 import CustomNavLink from "./custom/CustomNavLink";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutStart, logoutSuccess } from "../app/features/AnimationSlice";
 const Navbar = () => {
   const navigate = useNavigate();
-  const { login, logout, user } = useAuth();
+  const { LoggedIn } = useSelector((state) => state.TextAnimation);
   const [isNavOpen, setIsNavOpen] = useState(false);
-
+  const dispatch = useDispatch();
   const [isDarkMode, setIsDarkMode] = useState(
     () =>
       localStorage.getItem("theme") === "dark" ||
@@ -24,8 +25,9 @@ const Navbar = () => {
     setIsNavOpen(!isNavOpen);
   };
   const Logout = () => {
+    dispatch(logoutStart());
+    dispatch(logoutSuccess());
     toast.success("Logged out successfully");
-    logout();
   };
 
   return (
@@ -43,7 +45,7 @@ const Navbar = () => {
         <div
           className={`sm:flex ${isNavOpen ? "block" : "hidden"} lg:flex-row`}
         >
-          {user && (
+          {LoggedIn && (
             <div
               className={` flex sm:my-3 items-center ${
                 isNavOpen ? "flex-col" : "flex-row"
@@ -68,7 +70,7 @@ const Navbar = () => {
             <ThemeSwitch />
           </div>
 
-          {user ? (
+          {LoggedIn ? (
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-3 mt-3 text-sm mb-3"
               onClick={Logout}
@@ -82,7 +84,7 @@ const Navbar = () => {
               </button>
             </NavLink>
           )}
-          {!user && (
+          {!LoggedIn && (
             <NavLink to="/register">
               <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded  text-sm mb-2">
                 Register
@@ -91,7 +93,7 @@ const Navbar = () => {
           )}
         </div>
       </div>
-      {user && (
+      {LoggedIn && (
         <div className="sm:hidden">
           <button
             onClick={toggleNav}

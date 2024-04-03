@@ -3,17 +3,20 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthProvider";
 import toast from "react-hot-toast";
-const Login = ({ getLogin }) => {
+import { useDispatch, useSelector } from "react-redux";
+import { User_Login } from "../app/features/AnimationSlice";
+
+const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
-  const { login, logout, removeLoader, setLoader } = useAuth();
+  const { success, error, LoggedIn } = useSelector(
+    (state) => state.TextAnimation
+  );
   const navigate = useNavigate();
-
+  const dispatch = useDispatch();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -21,39 +24,34 @@ const Login = ({ getLogin }) => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoader();
 
     // Here you can add your logic to handle form submission
     console.log(formData);
 
+    dispatch(User_Login(formData))
+      .then((result) => {
+        // Check if the login was successful
+        if (result.payload && result.payload.success) {
+          navigate("/home");
+          console.log("login successful");
+          toast.success("User logged in successfully");
+        } else {
+          console.log("login failed");
+          toast.error("Please enter with correct credentials");
+        }
+      })
+      .catch((error) => {
+        console.error("Error occurred during login:", error);
+        // Handle error if needed
+      });
     // Reset the form
     setFormData({
       email: "",
       password: "",
     });
-
-    try {
-      const response = await axios.post(
-        "https://text-to-animation-backend.vercel.app/api/v1/user/login",
-        formData
-      );
-
-      localStorage.setItem("user", response.data);
-      localStorage.setItem("login", response.data.authtoken);
-
-      if (response.data.success) {
-        login();
-        navigate("/home");
-        toast.success("Login Successful");
-      }
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data);
-    }
-
-    removeLoader(); // Moved inside try-catch block
   };
 
   return (
@@ -88,7 +86,7 @@ const Login = ({ getLogin }) => {
             type="password"
             id="password"
             name="password"
-            minLength={"8"}
+            minLength={8}
             value={formData.password}
             onChange={handleChange}
             className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"

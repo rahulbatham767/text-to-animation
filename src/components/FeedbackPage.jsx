@@ -2,13 +2,12 @@ import React, { useContext, useState } from "react";
 import axios from "axios";
 import { Textarea, Button } from "react-daisyui";
 import toast from "react-hot-toast";
-import { useAuth } from "./AuthProvider";
-
+import { useDispatch, useSelector } from "react-redux";
+import { User_Feedback } from "../app/features/AnimationSlice";
 const Rating = ({ starRating, setRating }) => {
   const handleClick = (newRating) => {
     setRating(newRating);
   };
-  const { login, logout, setLoading, loading } = useAuth();
   return (
     <div className="flex space-x-1 ">
       {[1, 2, 3, 4, 5].map((star) => (
@@ -29,25 +28,22 @@ const Rating = ({ starRating, setRating }) => {
 const FeedbackPage = () => {
   const [starRating, setStarRating] = useState(0);
   const [feedbackText, setFeedback] = useState("");
-
+  const dispatch = useDispatch();
+  const { message, success } = useSelector((state) => state.TextAnimation);
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here (e.g., send feedback to server)
     console.log(`Rating: ${starRating}, Feedback: ${feedbackText}`);
-    loading(true);
+
     const formData = {
       feedbackText: feedbackText,
       starRating: starRating,
     };
-    axios
-      .post(
-        "https://text-to-animation-backend.vercel.app/api/v1/feedback",
-        formData
-      )
+    dispatch(User_Feedback(formData))
       .then((Response) => {
         console.log(Response);
-        if (Response.status === 201) {
-          toast.success(Response.data.message);
+        if (success) {
+          toast.success(message);
         }
       })
       .catch((err) => {

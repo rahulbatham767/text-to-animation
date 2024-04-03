@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import { Route, useNavigate, Navigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
 
+import { useSelector } from "react-redux";
 const ProtectedRoute = ({ element: Element, isAuthenticated, ...rest }) => {
-  const { user } = useAuth();
+  const { LoggedIn } = useSelector((state) => state.TextAnimation);
 
   const navigate = useNavigate();
 
-  return user ? <Element {...rest} /> : <Navigate to="/login" />;
+  return LoggedIn ? <Element {...rest} /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
