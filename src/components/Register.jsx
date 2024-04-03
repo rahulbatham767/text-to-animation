@@ -10,7 +10,7 @@ const Register = () => {
     email: "",
     password: "",
   });
-  const { login, logout, setLoading, loading } = useAuth();
+  const { login, logout } = useAuth();
   const navigate = useNavigate();
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -22,7 +22,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
+    
     // Here you can add your logic to handle form submission
     console.log(formData);
     // Reset the form
@@ -52,7 +52,7 @@ const Register = () => {
         toast.error("Registration Failed because  " + err.response.data);
         return err.message;
       });
-    setLoading(false);
+ 
   };
 
   return (
