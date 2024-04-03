@@ -12,7 +12,6 @@ const Register = () => {
     password: "",
   });
 
-  const { login, logout } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
