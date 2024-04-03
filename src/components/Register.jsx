@@ -55,26 +55,6 @@ const Register = () => {
       email: "",
       password: "",
     });
-
-    axios
-      .post(
-        "https://text-to-animation-backend.vercel.app/api/v1/user/register",
-        formData
-      )
-      .then((Response) => {
-        localStorage.setItem("user", JSON.stringify(Response.data));
-        localStorage.setItem("login", JSON.stringify(Response.data.authtoken));
-        if (Response.data.success) {
-          navigate("/home");
-          login();
-          toast.success("Registration Successful");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Registration Failed because  " + err.response.data);
-        return err.message;
-      });
   };
 
   return (
