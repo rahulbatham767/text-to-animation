@@ -27,7 +27,7 @@ const DemoPage = () => {
               </p>
             </div>
 
-            <div className="mt-4 relative">
+            <div className="m-3 relative">
               <input
                 type="text"
                 className="w-full border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:border-blue-500 transition duration-300"
@@ -44,21 +44,22 @@ const DemoPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Right side: Image */}
-        <div className="   w-6xl mt-7 relative scaleUp rounded-xl  flex items-center justify-center">
-          <div className="w-3/5 relative rounded-xl">
-            <img
-              src={cat}
-              alt="Placeholder"
-              className={`h-full w-full relative rounded-xl object-contain `}
-            />{" "}
-            <button
-              onClick={() => handleDownloadImage(cat)}
-              className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-            >
-              Download
-            </button>
+        <div className="p-4">
+          {/* Right side: Image */}
+          <div className="   w-6xl mt-7 relative scaleUp rounded-xl  flex items-center justify-center">
+            <div className="h-full relative rounded-xl">
+              <img
+                src={cat}
+                alt="Placeholder"
+                className={`h-full  relative rounded-xl object-cover `}
+              />{" "}
+              <button
+                onClick={() => handleDownloadImage(cat)}
+                className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+              >
+                Download
+              </button>
+            </div>
           </div>
         </div>
       </div>
