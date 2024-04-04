@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import ShareButton from "../custom/ShareButton";
-
+import { useDispatch, useSelector } from "react-redux";
+import { User_Remove_bg } from "../../app/features/AnimationSlice";
 const LogoRemover = () => {
   const [originalImage, setOriginalImage] = useState(null);
   const [removedImage, setRemovedImage] = useState(null);
-
+  const key = "NdMJskCVeLg22ELMaZ4YeREt";
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -15,7 +16,7 @@ const LogoRemover = () => {
 
     reader.readAsDataURL(file);
   };
-
+  const { bg_data } = useSelector((state) => state.TextAnimation);
   const handleImageDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
@@ -27,16 +28,16 @@ const LogoRemover = () => {
 
     reader.readAsDataURL(file);
   };
-
+  const dispatch = useDispatch();
   const handleRemoveLogo = () => {
     // If original image exists and removed image is not set yet
-    if (originalImage && !removedImage) {
-      // Implement your logo removal logic here
-      // This is just a placeholder
-      setRemovedImage(originalImage);
-    }
-  };
 
+    const formData = new FormData();
+    formData.append("size", "auto");
+    formData.append("image_file", originalImage);
+    dispatch(User_Remove_bg(formData));
+  };
+  const base64String = btoa(String.fromCharCode(...new Uint8Array(bg_data)));
   const handleDownload = () => {
     // Creating a temporary anchor element to download the image
     const anchor = document.createElement("a");
@@ -109,27 +110,30 @@ const LogoRemover = () => {
           )}
         </div>
       </div>
-      {removedImage && (
-        <div className="mt-8 flex text-white flex-col items-center pb-12">
-          <h2 className="text-xl font-semibold mb-4">Removed Logo</h2>
-          <div className="relative items-end">
-            <img src={removedImage} alt="Removed" className="max-w-md" />
-            <div className="absolute bottom-0 right-2 flex justify-between items-center w-full">
-              <div>
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-sm rounded ml-3 "
-                  onClick={handleDownload}
-                >
-                  Download
-                </button>
-              </div>
-              <div className="mt-3">
-                <ShareButton />
-              </div>
+
+      <div className="mt-8 flex text-white flex-col items-center pb-12">
+        <h2 className="text-xl font-semibold mb-4">Removed Logo</h2>
+        <div className="relative items-end">
+          <img
+            src={`data:image/png;base64,${base64String}`}
+            alt="Removed"
+            className="max-w-md"
+          />
+          <div className="absolute bottom-0 right-2 flex justify-between items-center w-full">
+            <div>
+              <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 text-sm rounded ml-3 "
+                onClick={handleDownload}
+              >
+                Download
+              </button>
+            </div>
+            <div className="mt-3">
+              <ShareButton />
             </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

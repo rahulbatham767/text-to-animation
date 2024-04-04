@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { handleDownloadImage } from "../utils/handleDownloadImage";
 
 const VerticalCarousel = ({ imageUrl, success, check }) => {
   const [isZoomed, setIsZoomed] = useState(false);
@@ -19,7 +20,7 @@ const VerticalCarousel = ({ imageUrl, success, check }) => {
                 onMouseLeave={() => setIsZoomed(false)}
               />{" "}
               <button
-                onClick={() => handleDownloadImage(cat)}
+                onClick={() => handleDownloadImage(imageUrl)}
                 className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
               >
                 Download

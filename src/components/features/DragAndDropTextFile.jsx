@@ -1,20 +1,34 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { User_fetch_Image } from "../../app/features/AnimationSlice";
 
 const DragAndDropTextFile = () => {
   const [fileContent, setFileContent] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
 
+  const [imageUrl, setImageUrl] = useState("");
+  const dispatch = useDispatch();
+  const { imgData } = useSelector((state) => state.TextAnimation);
   const handleDrop = (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     const reader = new FileReader();
     reader.onload = (e) => {
-      setFileContent(e.target.result);
-    };
-    reader.readAsText(file);
+      const content = e.target.result;
+      setFileContent(content);
 
-    // For demo purposes, set a placeholder image URL
-    setImageUrl("https://via.placeholder.com/150");
+      // Dispatch action to fetch image data using file content
+      dispatch(User_fetch_Image(content))
+        .then((response) => {
+          console.log(response);
+          setImageUrl(imgData.image_url); // Assuming imgData contains image URL
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // For demo purposes, set a placeholder image URL
+    };
+
+    reader.readAsText(file);
   };
 
   const handleDragOver = (e) => {
@@ -46,8 +60,8 @@ const DragAndDropTextFile = () => {
             className="w-64 h-64 object-cover rounded-lg"
           />
         ) : (
-          <div className="relative z-500 w-5/6 items-center flex justify-center h-52 ">
-            <p className=" text-center  shadow-lg  text-white font-semibold text-2xl">
+          <div className="relative z-500 w-5/6 items-center flex justify-center h-52">
+            <p className="text-center shadow-lg text-white font-semibold text-2xl">
               No image to display
             </p>
           </div>

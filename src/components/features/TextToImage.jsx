@@ -7,6 +7,7 @@ import { FaSearch } from "react-icons/fa";
 // import VerticalCarousel from "./custom/VerticalCarousel";
 import { useSelector, useDispatch } from "react-redux";
 import { User_fetch_Image } from "../../app/features/AnimationSlice";
+import cat from "../../assets/cat.png";
 import VerticalCarousel from "../custom/VerticalCarousel";
 const TexToImage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -14,7 +15,9 @@ const TexToImage = () => {
   const [backgroundImage, setBackgroundImage] = useState(false);
   const container = useRef();
 
-  const { imgData, success } = useSelector((state) => state.TextAnimation);
+  const { imgData, success, imgfetch } = useSelector(
+    (state) => state.TextAnimation
+  );
   const dispatch = useDispatch();
 
   const handleSearchChange = (event) => {
@@ -75,12 +78,26 @@ const TexToImage = () => {
                 )}
               </button>
             </div>
-            <div className=" mt-4 ">
-              <VerticalCarousel
-                imageUrl={imgData.image_url}
-                {...imgData}
-                check={success}
-              />
+            <div className="p-4">
+              <div className=" mt-4 h-full p-4">
+                {imgfetch ? (
+                  <VerticalCarousel
+                    imageUrl={imgData.image_url}
+                    {...imgData}
+                    check={success}
+                  />
+                ) : (
+                  <div className="card w-96 glass relative delay-20  hover:scale-110 ">
+                    <figure>
+                      <img src={cat} alt="car!" />
+                    </figure>
+
+                    <div className="card-actions justify-end absolute bottom-1 right-2">
+                      <button className="btn btn-primary">Download</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

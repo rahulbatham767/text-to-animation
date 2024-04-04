@@ -5,6 +5,7 @@ import {
   fetchVideo,
   login,
   register,
+  Remove_bg,
   saveVideo,
 } from "./Api";
 import axios from "axios";
@@ -66,6 +67,19 @@ export const User_fetch_Image = createAsyncThunk(
     console.log(data);
     try {
       const response = await fetchImage(data);
+      console.log(response);
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+export const User_Remove_bg = createAsyncThunk(
+  "TextAnimation/remove_bg",
+  async (data, thunkApi) => {
+    console.log(data);
+    try {
+      const response = await Remove_bg(data);
       console.log(response);
       return response;
     } catch (error) {
@@ -140,6 +154,8 @@ const AnimationSlice = createSlice({
     video_Fetched: false,
     show_video: [],
     imgData: [],
+    bg_data: [],
+    imgfetch: false,
   },
   reducers: {
     logoutStart: (state) => {
@@ -243,10 +259,10 @@ const AnimationSlice = createSlice({
       .addCase(User_fetch_Image.fulfilled, (state, action) => {
         // Handle feedback fulfilled
         console.log(action.payload);
-
         state.success = true;
         state.imgData = action.payload;
         state.loading = false;
+        state.imgfetch = true;
       })
       .addCase(User_fetch_Image.pending, (state) => {
         state.loading = true;
@@ -289,6 +305,20 @@ const AnimationSlice = createSlice({
         state.success = false;
       })
       .addCase(User_Show_videos.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+        state.success = false;
+      })
+      .addCase(User_Remove_bg.fulfilled, (state, action) => {
+        state.success = true;
+        state.loading = false;
+        state.bg_data = action.payload;
+      })
+      .addCase(User_Remove_bg.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+      })
+      .addCase(User_Remove_bg.rejected, (state, action) => {
         state.error = action.payload;
         state.loading = false;
         state.success = false;

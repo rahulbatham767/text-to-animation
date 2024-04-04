@@ -73,20 +73,6 @@ const Home = () => {
     // Call checkStatusRecursively after dispatching User_fetchVideo
     checkStatusRecursively(uuid);
   };
-  const checkStatusRecursively = async (uuid) => {
-    const response = await dispatch(Get_Status(uuid));
-    if (response.payload.status !== "success") {
-      setTimeout(() => {
-        checkStatusRecursively(uuid, fetchedData); // Call recursively if status is not success
-      }, 3000);
-    } else if (response.payload.status === "success") {
-      const { videoUrl } = fetchedData;
-
-      console.log(videoUrl);
-      dispatch(Transmission());
-      uploadCloud(videoUrl);
-    }
-  };
 
   console.log(videoData);
   const Get_state = () => {
@@ -126,6 +112,7 @@ const Home = () => {
               Welcome To <br /> Text Animation Maker
             </div>
           </div>
+
           <div className="relative flex items-center rounded-full overflow-hidden hidden animate-hidden bg-gray-100 px-4 py-2 shadow-sm  mx-auto mt-20">
             <input
               type="text"
@@ -138,7 +125,6 @@ const Home = () => {
             <button
               type="button"
               className="flex items-center px-4 py-2 rounded-r-full bg-blue-500 text-white hover:bg-blue-700 focus:ring-white transition delay-300"
-              // onClick={() => generateImageForCarousel(searchTerm)}
               onClick={() => {
                 if (searchTerm.length === 0) {
                   toast.error("Enter some text to generate a video");
@@ -168,12 +154,12 @@ const Home = () => {
             <p className="text-white">Status: {status}</p>
           </div>
         </div>
-        <div className="h-full shadow-lg p-6 m-10">
+        <div className="h-full space-y-3 flex flex-col shadow-lg p-2 m-3">
           {videoData.map(({ status, url, uuid }) => {
             console.log(status, url, uuid);
             return (
               <div
-                className="ml-5 h-[300px] mt-10  w-[600px] mb-5 items-center justify-center flex relative"
+                className="   w-[600px] mb-5 items-center justify-center flex relative"
                 key={uuid}
               >
                 <div className="w-full h-fit">
@@ -184,9 +170,6 @@ const Home = () => {
                         <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin">
                           {" "}
                         </div>
-                        <span className="absolute">
-                          {Math.floor(videoprogress)}
-                        </span>
                       </div>
                     </div>
                   ) : (
@@ -197,10 +180,24 @@ const Home = () => {
                         </h1>
                       </div>
                       <div className="flex flex-col mt-6">
-                        <video controls autoPlay className="mt-5 mx-auto">
-                          <source src={url} type="video/mp4" />
-                        </video>
-                        <div className="button-container-3">
+                        {Math.floor(videoprogress * 100) === 100 ? (
+                          <video controls autoPlay className="mt-5  mx-auto">
+                            <source src={url} type="video/mp4" />
+                          </video>
+                        ) : (
+                          <div
+                            className="radial-progress"
+                            style={{
+                              "--value": "70",
+                              "--size": "12rem",
+                              "--thickness": "2px",
+                            }}
+                            role="progressbar"
+                          >
+                            {Math.floor(videoprogress * 100)}
+                          </div>
+                        )}
+                        <div className="button-container-3 mt-2">
                           <span className="mas">Download</span>
                           <button
                             type="button"

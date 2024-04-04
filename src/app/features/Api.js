@@ -79,3 +79,19 @@ export const saveVideo = async (data) => {
 
   return response.data;
 };
+
+export const Remove_bg = async (data) => {
+  const response = await axios.post(
+    "https://api.remove.bg/v1.0/removebg",
+    data,
+    {
+      responseType: "arraybuffer",
+      headers: {
+        "Content-Type": "multipart/form-data",
+        "X-Api-Key": "NdMJskCVeLg22ELMaZ4YeREt",
+      },
+    }
+  );
+
+  return response.data;
+};
