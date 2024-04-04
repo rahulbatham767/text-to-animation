@@ -2,7 +2,6 @@ import { useTheme } from "./useTheme"; // Import the hook
 
 const ThemeSwitch = () => {
   const { isDarkMode, toggleTheme } = useTheme();
-  console.log(isDarkMode);
 
   return (
     <label className="toggle-container">

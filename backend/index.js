@@ -19,6 +19,7 @@ app.use(
 // Routes
 app.use("/api/v1/user", require("./routes/UserRoute")); // Assuming this file exists
 app.use("/api/v1/feedback", require("./routes/FeedbackRouter")); // Assuming this file exists
+app.use("/api/v1/video", require("./routes/Video")); // Assuming this file exists
 
 // Start server
 mongoose

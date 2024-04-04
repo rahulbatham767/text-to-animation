@@ -20,7 +20,6 @@ const Navbar = () => {
         window.matchMedia("(prefers-color-scheme: dark)").matches)
   );
 
-  console.log(isDarkMode);
   const toggleNav = () => {
     setIsNavOpen(!isNavOpen);
   };

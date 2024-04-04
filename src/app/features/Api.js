@@ -24,3 +24,34 @@ export const feedback = async (data) => {
 
   return response.data;
 };
+
+export const fetchVideo = async (data) => {
+  const options = {
+    method: "POST",
+    url: "https://runwayml.p.rapidapi.com/generate/text",
+    headers: {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": "bc0e40e117msh6325c764d9ac1a3p1e0a86jsnf0bce3467464",
+      "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
+    },
+    data: {
+      text_prompt: data,
+      width: 1344,
+      height: 768,
+      motion: 5,
+      seed: 0,
+      upscale: true,
+      interpolate: true,
+    },
+  };
+  const response = await axios.request(options);
+
+  console.log(response.data);
+  return response.data;
+};
+export const saveVideo = async (data) => {
+  const response = await axios.post("http://localhost:8080/api/v1/video", data);
+  console.log(response);
+
+  return response.data;
+};
