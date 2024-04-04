@@ -36,7 +36,7 @@ export const fetchVideo = async (data) => {
     },
     data: {
       text_prompt: data,
-      width: 1344,
+      width: 768,
       height: 768,
       motion: 5,
       seed: 0,

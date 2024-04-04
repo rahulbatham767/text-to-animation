@@ -221,10 +221,12 @@ const AnimationSlice = createSlice({
       })
       .addCase(Get_Status.fulfilled, (state, action) => {
         // Handle feedback fulfilled
+        console.log(action.payload);
+
         state.success = true;
         state.loading = false;
         state.fetchedData = action.payload;
-
+        state.status = action.payload.status;
         state.video_Fetched = false;
       })
       .addCase(Get_Status.pending, (state) => {

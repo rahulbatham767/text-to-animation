@@ -24,13 +24,15 @@ import { Cloudinary } from "@cloudinary/url-gen";
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false); // Track image generation status
+  const [title, Settitle] = useState("");
+  const [videoprogress, setVideoprogress] = useState(0);
   const { fetch_Status, error } = useSelector((state) => state.TextAnimation);
   const container = useRef();
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const { video_Fetched, fetchedData, uuid } = useSelector(
+  const { video_Fetched, fetchedData, success, uuid } = useSelector(
     (state) => state.TextAnimation
   );
   const status = useSelector((state) => state.TextAnimation.status);
@@ -57,9 +59,9 @@ const Home = () => {
 
   const Get_Video = async (searchTerm) => {
     console.log("get video");
-
+    Settitle(searchTerm);
     dispatch(User_fetchVideo(searchTerm));
-    if (video_Fetched) {
+    if (uuid) {
       toast.success("VIdeo Generation In Progress...");
     } else {
       toast.error(error);
@@ -78,7 +80,8 @@ const Home = () => {
         checkStatusRecursively(uuid, fetchedData); // Call recursively if status is not success
       }, 3000);
     } else if (response.payload.status === "success") {
-      const videoUrl = fetchedData.url;
+      const { videoUrl } = fetchedData;
+
       console.log(videoUrl);
       dispatch(Transmission());
       uploadCloud(videoUrl);
@@ -89,6 +92,7 @@ const Home = () => {
   const Get_state = () => {
     console.log(fetch_Status);
     dispatch(Get_Status(fetch_Status));
+    setVideoprogress(fetchedData.progress);
   };
 
   useGSAP(
@@ -155,11 +159,7 @@ const Home = () => {
           <div className="flex justify-between mt-6 items-center">
             <button
               type="button"
-              onClick={() =>
-                video_Fetched
-                  ? Get_state()
-                  : toast.error("Generate a Video First..")
-              }
+              onClick={() => Get_state()}
               className="{`p-4 rounded-lg  z-20 status status.explore Explore`}"
             >
               Check Status <span className="icon-right"></span>
@@ -180,19 +180,24 @@ const Home = () => {
                   {video_Fetched ? (
                     <div className=" inset-0 flex justify-center flex-col text-white items-center">
                       Video Generation in Progress...
-                      <div className="w-20 mt-4 h-16 border-t-4  rounded-full animate-spin"></div>
+                      <div className="flex items-center justify-center relative">
+                        <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin">
+                          {" "}
+                        </div>
+                        <span className="absolute">
+                          {Math.floor(videoprogress)}
+                        </span>
+                      </div>
                     </div>
                   ) : (
                     <div className="video-container mt-4 h-full p-4 justify-center flex flex-col items-center">
                       <div>
                         <h1 className="text-white text-3xl lg:4xl">
-                          {!video_Fetched
-                            ? "Enter Text For Generating Video"
-                            : " Video Generated Successfully"}
+                          {success ? title : "Enter Text For Generating Video"}
                         </h1>
                       </div>
                       <div className="flex flex-col mt-6">
-                        <video controls className="mt-5 mx-auto">
+                        <video controls autoPlay className="mt-5 mx-auto">
                           <source src={url} type="video/mp4" />
                         </video>
                         <div className="button-container-3">
@@ -200,11 +205,7 @@ const Home = () => {
                           <button
                             type="button"
                             name="Hover"
-                            onClick={() =>
-                              video_Fetched
-                                ? SaveVideo(url)
-                                : toast.error("Video is not Available...")
-                            }
+                            onClick={() => SaveVideo(url)}
                           >
                             Download
                           </button>
