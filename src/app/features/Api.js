@@ -31,7 +31,7 @@ export const fetchVideo = async (data) => {
     url: "https://runwayml.p.rapidapi.com/generate/text",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "bc0e40e117msh6325c764d9ac1a3p1e0a86jsnf0bce3467464",
+      "X-RapidAPI-Key": "e2e5f3151amshe78e2ab005afe82p1c4714jsnc518e711f475",
       "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
     },
     data: {

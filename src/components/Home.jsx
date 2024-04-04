@@ -59,7 +59,11 @@ const Home = () => {
     console.log("get video");
 
     dispatch(User_fetchVideo(searchTerm));
-    toast.error(error);
+    if (video_Fetched) {
+      toast.success("VIdeo Generation In Progress...");
+    } else {
+      toast.error(error);
+    }
     // Assuming searchTerm and uuid are available here
     const uuid = getUUIDFromSomeWhere();
     setSearchTerm("");
@@ -112,10 +116,7 @@ const Home = () => {
   return (
     <div className=" flex flex-col justify-center  items-center">
       <div className="  flex items-center justify-center flex-col flex-wrap">
-        <div
-          className="z-10 opacity-1 flex flex-col items-center justify-center"
-          ref={container}
-        >
+        <div className="z-10 opacity-1 flex flex-col  " ref={container}>
           <div className="flex flex-col justify-center items-center">
             <div className=" text-move text-4xl lg:6xl rounded-sm font-semibold shadow-md flex flex-col text-center font-poplin text-white  justify-center items-center">
               Welcome To <br /> Text Animation Maker
