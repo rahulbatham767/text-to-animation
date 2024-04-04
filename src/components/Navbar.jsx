@@ -51,6 +51,10 @@ const Navbar = () => {
               } justify-center `}
             >
               <CustomNavLink to="/home"> Text To Image</CustomNavLink>
+              <CustomNavLink to="/text-to-animation">
+                {" "}
+                Text To Animation
+              </CustomNavLink>
               <CustomNavLink to="/dragable">File To Text</CustomNavLink>
               <CustomNavLink to="/text-form"> Text Style</CustomNavLink>
               <CustomNavLink to="/logo-remover"> Logo Remover</CustomNavLink>

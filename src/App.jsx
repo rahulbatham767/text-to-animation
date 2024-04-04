@@ -21,6 +21,7 @@ import FeedbackPage from "./components/FeedbackPage";
 import Loader from "./components/custom/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutStart, logoutSuccess } from "./app/features/AnimationSlice";
+import TexToImage from "./components/features/TextToImage";
 function App() {
   const { LoggedIn, loading } = useSelector((state) => state.TextAnimation);
 
@@ -109,8 +110,13 @@ function App() {
           />
           <Route
             exact
-            path="/home"
+            path="/text-to-animation"
             element={<ProtectedRoute element={Home} />}
+          />
+          <Route
+            exact
+            path="/home"
+            element={<ProtectedRoute element={TexToImage} />}
           />
           <Route
             exact

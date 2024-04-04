@@ -1,39 +1,30 @@
-import React from "react";
-import { handleDownloadImage } from "../utils/handleDownloadImage";
+import React, { useState } from "react";
 
-const VerticalCarousel = ({ data }) => {
+const VerticalCarousel = ({ imageUrl, success, check }) => {
+  const [isZoomed, setIsZoomed] = useState(false);
+
   return (
-    <div className="h-96 carousel carousel-vertical rounded-box relative">
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg" />
-        <button
-          onClick={() =>
-            handleDownloadImage(
-              "https://daisyui.com/images/stock/photo-1559703248-dcaaec9fab78.jpg"
-            )
-          }
-          className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
-        >
-          Download
-        </button>
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1565098772267-60af42b81ef2.jpg" />
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1572635148818-ef6fd45eb394.jpg" />
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1494253109108-2e30c049369b.jpg" />
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1550258987-190a2d41a8ba.jpg" />
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1559181567-c3190ca9959b.jpg" />
-      </div>
-      <div className="carousel-item h-full">
-        <img src="https://daisyui.com/images/stock/photo-1601004890684-d8cbf643f5f2.jpg" />
+    <div className=" p-4 ">
+      <div className="relative overflow-hidden inline-block  rounded-lg flex items-center justify-center">
+        <div className=" lg:w-3/4 p-2 shadow-lg rounded-lg">
+          {check ? (
+            <img
+              src={imageUrl}
+              alt="Your Image"
+              className={`transition-transform rounded-xl duration-300 object-cover h-full ${
+                isZoomed ? "transform scale-125" : "transform scale-100"
+              }`}
+              onMouseEnter={() => setIsZoomed(true)}
+              onMouseLeave={() => setIsZoomed(false)}
+            />
+          ) : (
+            <div className="flex items-center justify-center relative">
+              <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin">
+                {success}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

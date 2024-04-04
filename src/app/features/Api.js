@@ -49,6 +49,30 @@ export const fetchVideo = async (data) => {
   console.log(response.data);
   return response.data;
 };
+
+export const fetchImage = async (data) => {
+  const options = {
+    method: "POST",
+    url: "https://text-to-image-dalle.p.rapidapi.com/generate/reality",
+    headers: {
+      "content-type": "application/json",
+      "X-RapidAPI-Key": "45fbd3ece7msh480ff943f788f3ep1fbe7cjsnc31b0ca847ba",
+      "X-RapidAPI-Host": "text-to-image-dalle.p.rapidapi.com",
+    },
+    data: {
+      text_query: data,
+    },
+  };
+
+  try {
+    const response = await axios.request(options);
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 export const saveVideo = async (data) => {
   const response = await axios.post("http://localhost:8080/api/v1/video", data);
   console.log(response);

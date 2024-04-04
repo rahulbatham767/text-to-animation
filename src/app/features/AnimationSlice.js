@@ -1,5 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { feedback, fetchVideo, login, register, saveVideo } from "./Api";
+import {
+  feedback,
+  fetchImage,
+  fetchVideo,
+  login,
+  register,
+  saveVideo,
+} from "./Api";
 import axios from "axios";
 
 // Async Thunks
@@ -46,6 +53,19 @@ export const User_fetchVideo = createAsyncThunk(
     console.log(data);
     try {
       const response = await fetchVideo(data);
+      console.log(response);
+      return response;
+    } catch (error) {
+      return thunkApi.rejectWithValue(error.message);
+    }
+  }
+);
+export const User_fetch_Image = createAsyncThunk(
+  "TextAnimation/fetch_image",
+  async (data, thunkApi) => {
+    console.log(data);
+    try {
+      const response = await fetchImage(data);
       console.log(response);
       return response;
     } catch (error) {
@@ -119,6 +139,7 @@ const AnimationSlice = createSlice({
     fetch_Status: { title: "", uuid: "" },
     video_Fetched: false,
     show_video: [],
+    imgData: [],
   },
   reducers: {
     logoutStart: (state) => {
@@ -218,6 +239,23 @@ const AnimationSlice = createSlice({
         state.loading = false;
         state.success = false;
         state.status = "idle";
+      })
+      .addCase(User_fetch_Image.fulfilled, (state, action) => {
+        // Handle feedback fulfilled
+        console.log(action.payload);
+
+        state.success = true;
+        state.imgData = action.payload;
+        state.loading = false;
+      })
+      .addCase(User_fetch_Image.pending, (state) => {
+        state.loading = true;
+        state.success = false;
+      })
+      .addCase(User_fetch_Image.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+        state.success = false;
       })
       .addCase(Get_Status.fulfilled, (state, action) => {
         // Handle feedback fulfilled
