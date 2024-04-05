@@ -63,11 +63,11 @@ const NavbarDropdown = () => {
           </li>
           <li>
             <NavLink
-              to="/logo-remover"
+              to="/background-remover"
               className="text-base-content hover:bg-base-200 px-3 py-2 rounded-md block"
               onClick={closeDropdown}
             >
-              Logo Remover
+              Background Remover
             </NavLink>
           </li>
           <li>
