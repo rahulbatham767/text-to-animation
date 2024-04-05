@@ -5,7 +5,6 @@ import {
   fetchVideo,
   login,
   register,
-  Remove_bg,
   saveVideo,
 } from "./Api";
 import axios from "axios";
@@ -154,7 +153,8 @@ const AnimationSlice = createSlice({
     video_Fetched: false,
     show_video: [],
     imgData: [],
-    bg_data: [],
+
+    darkmode: true,
     imgfetch: false,
   },
   reducers: {
@@ -173,6 +173,9 @@ const AnimationSlice = createSlice({
       state.status = "success";
       state.uuid = "";
       state.fetch_Status = { title: "", uuid: "" };
+    },
+    Toogle: (state, action) => {
+      state.darkmode = !state.darkmode;
     },
   },
   extraReducers: (builder) =>
@@ -308,22 +311,8 @@ const AnimationSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
         state.success = false;
-      })
-      .addCase(User_Remove_bg.fulfilled, (state, action) => {
-        state.success = true;
-        state.loading = false;
-        state.bg_data = action.payload;
-      })
-      .addCase(User_Remove_bg.pending, (state) => {
-        state.loading = true;
-        state.success = false;
-      })
-      .addCase(User_Remove_bg.rejected, (state, action) => {
-        state.error = action.payload;
-        state.loading = false;
-        state.success = false;
       }),
 });
-export const { logoutStart, logoutSuccess, Transmission } =
+export const { logoutStart, logoutSuccess, Transmission, Toogle } =
   AnimationSlice.actions;
 export default AnimationSlice.reducer;

@@ -1,6 +1,6 @@
 // Navbar.js
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { FaTimes, FaBars } from "react-icons/fa";
@@ -9,8 +9,7 @@ import CustomNavLink from "./custom/CustomNavLink";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutStart, logoutSuccess } from "../app/features/AnimationSlice";
 const Navbar = () => {
-  const navigate = useNavigate();
-  const { LoggedIn } = useSelector((state) => state.TextAnimation);
+  const { LoggedIn, darkmode } = useSelector((state) => state.TextAnimation);
   const [isNavOpen, setIsNavOpen] = useState(false);
   const dispatch = useDispatch();
   const [isDarkMode, setIsDarkMode] = useState(
@@ -65,8 +64,8 @@ const Navbar = () => {
               <CustomNavLink to="/text-form" onClick={closeNav}>
                 Text Style
               </CustomNavLink>
-              <CustomNavLink to="/logo-remover" onClick={closeNav}>
-                Logo Remover
+              <CustomNavLink to="/background-remover" onClick={closeNav}>
+               Background Remover
               </CustomNavLink>
               <CustomNavLink to="/feedback" onClick={closeNav}>
                 Feedback

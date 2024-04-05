@@ -29,7 +29,9 @@ const FeedbackPage = () => {
   const [starRating, setStarRating] = useState(0);
   const [feedbackText, setFeedback] = useState("");
   const dispatch = useDispatch();
-  const { message, success } = useSelector((state) => state.TextAnimation);
+  const { message, success, darkmode } = useSelector(
+    (state) => state.TextAnimation
+  );
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission here (e.g., send feedback to server)
@@ -56,7 +58,11 @@ const FeedbackPage = () => {
   };
 
   return (
-    <div className="container mx-auto mt-10 flex flex-col items-center text-white p-5">
+    <div
+      className={`container mx-auto mt-10 flex flex-col items-center ${
+        darkmode ? "text-white" : "text-black"
+      }  p-5`}
+    >
       <h1 className="text-3xl font-bold mb-5">Your Feedback Matters</h1>
       <form onSubmit={handleSubmit} className="w-5/6">
         <div className="mb-5">
@@ -76,7 +82,7 @@ const FeedbackPage = () => {
             onChange={(e) => setFeedback(e.target.value)}
             rows="7"
             placeholder="Enter your feedback"
-            className="w-full bg-transparent border-2 border-white placeholder-gray-light text-3xl"
+            className="w-full bg-transparent border-2 shadow-xl p-2 border-white placeholder-gray-light text-3xl"
             required
           />
         </div>

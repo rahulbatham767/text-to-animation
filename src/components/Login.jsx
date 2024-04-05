@@ -12,7 +12,7 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { success, error, LoggedIn } = useSelector(
+  const { success, error, LoggedIn, darkmode } = useSelector(
     (state) => state.TextAnimation
   );
   const navigate = useNavigate();
@@ -55,51 +55,54 @@ const Login = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8 bg-gray-100 bg-opacity-50 p-8 rounded-lg sm:w-1/2">
-      <h2 className="text-3xl font-bold text-white mb-4">Login</h2>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="mb-6">
-          <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
-            htmlFor="email"
+    <div className="card   shadow-xl">
+      <div
+        className={`${
+          darkmode ? "text-white bg-gray-100" : "text-black"
+        } container mx-auto mt-8  bg-opacity-50 p-8 rounded-lg sm:w-1/2`}
+      >
+        <h2 className="text-3xl font-bold  mb-4">Login</h2>
+        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
+          <div className="mb-6 ">
+            <label
+              className="block  text-lg font-semibold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="shadow appearance-none border  rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline "
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label className={`block  text-lg  mb-2`} htmlFor="password">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              minLength={8}
+              value={formData.password}
+              onChange={handleChange}
+              className={`shadow   appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline`}
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-blue-500 hover:bg-blue-700  font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
           >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-6">
-          <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            minLength={8}
-            value={formData.password}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-3 px-4 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
-        >
-          Login
-        </button>
-      </form>
+            Login
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

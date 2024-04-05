@@ -1,18 +1,23 @@
-import { useTheme } from "./useTheme"; // Import the hook
+import { Toogle } from "../app/features/AnimationSlice";
 
+import { useSelector, useDispatch } from "react-redux";
 const ThemeSwitch = () => {
-  const { isDarkMode, toggleTheme } = useTheme();
+  const dispatch = useDispatch();
+  const darkmode = useSelector((state) => state.TextAnimation.darkmode);
+  const handleToggle = () => {
+    dispatch(Toogle()); // Dispatch the action creator
+  };
 
   return (
     <label className="toggle-container">
       <input
         type="checkbox"
         className="toggle-checkbox"
-        checked={isDarkMode}
-        onChange={toggleTheme}
+        checked={darkmode}
+        onChange={handleToggle}
       />
       <span className="toggle-slider"></span>
-      <span className="toggle-label">{isDarkMode ? "Dark" : "Light"}</span>
+      <span className="toggle-label">{darkmode ? "Dark" : "Light"}</span>
     </label>
   );
 };

@@ -31,7 +31,7 @@ export const fetchVideo = async (data) => {
     url: "https://runwayml.p.rapidapi.com/generate/text",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "ed8f46302dmsh1db6a3e079aec90p16e316jsnaf351c7f69ce",
+      "X-RapidAPI-Key": "38c23c836dmshbfb5617667f2003p1bcde0jsn0b2646dacc8c",
       "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
     },
     data: {
@@ -76,22 +76,6 @@ export const fetchImage = async (data) => {
 export const saveVideo = async (data) => {
   const response = await axios.post("http://localhost:8080/api/v1/video", data);
   console.log(response);
-
-  return response.data;
-};
-
-export const Remove_bg = async (data) => {
-  const response = await axios.post(
-    "https://api.remove.bg/v1.0/removebg",
-    data,
-    {
-      responseType: "arraybuffer",
-      headers: {
-        "Content-Type": "multipart/form-data",
-        "X-Api-Key": "NdMJskCVeLg22ELMaZ4YeREt",
-      },
-    }
-  );
 
   return response.data;
 };

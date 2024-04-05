@@ -20,6 +20,7 @@ import {
 } from "./utils/handleDownloadImage";
 import { saveVideo } from "../app/features/Api";
 import { Cloudinary } from "@cloudinary/url-gen";
+import AnimatedText from "./custom/TextEffect";
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,7 +33,7 @@ const Home = () => {
     setSearchTerm(event.target.value);
   };
 
-  const { video_Fetched, fetchedData, success, uuid } = useSelector(
+  const { video_Fetched, fetchedData, success, uuid, darkmode } = useSelector(
     (state) => state.TextAnimation
   );
   const status = useSelector((state) => state.TextAnimation.status);
@@ -61,18 +62,10 @@ const Home = () => {
     console.log("get video");
     Settitle(searchTerm);
     dispatch(User_fetchVideo(searchTerm));
-    if (uuid) {
-      toast.success("VIdeo Generation In Progress...");
-    } else {
-      toast.error(error);
-    }
-    // Assuming searchTerm and uuid are available here
-    const uuid = getUUIDFromSomeWhere();
-    setSearchTerm("");
-
-    // Call checkStatusRecursively after dispatching User_fetchVideo
-    checkStatusRecursively(uuid);
   };
+  // Assuming searchTerm and uuid are available here
+
+  // Call checkStatusRecursively after dispatching User_fetchVideo
 
   console.log(videoData);
   const Get_state = () => {
@@ -104,14 +97,14 @@ const Home = () => {
   };
 
   return (
-    <div className=" flex flex-col justify-center  items-center">
+    <div
+      className={` flex flex-col justify-center  items-center p-20 ${
+        darkmode ? "text-white" : "text-black"
+      }`}
+    >
       <div className="  flex items-center justify-center flex-col flex-wrap">
-        <div className="z-10 opacity-1 flex flex-col  " ref={container}>
-          <div className="flex flex-col justify-center items-center">
-            <div className=" text-move text-4xl lg:6xl rounded-sm font-semibold shadow-md flex flex-col text-center font-poplin text-white  justify-center items-center">
-              Welcome To <br /> Text Animation Maker
-            </div>
-          </div>
+        <div className="  flex flex-col  " ref={container}>
+          <AnimatedText overlay={false} />
 
           <div className="relative flex items-center rounded-full overflow-hidden hidden animate-hidden bg-gray-100 px-4 py-2 shadow-sm  mx-auto mt-20">
             <input
@@ -124,7 +117,7 @@ const Home = () => {
             />
             <button
               type="button"
-              className="flex items-center px-4 py-2 rounded-r-full bg-blue-500 text-white hover:bg-blue-700 focus:ring-white transition delay-300"
+              className="flex items-center px-4 py-2 rounded-r-full bg-blue-500  hover:bg-blue-700 focus:ring-white transition delay-300"
               onClick={() => {
                 if (searchTerm.length === 0) {
                   toast.error("Enter some text to generate a video");
@@ -146,12 +139,14 @@ const Home = () => {
             <button
               type="button"
               onClick={() => Get_state()}
-              className="{`p-4 rounded-lg  z-20 status status.explore Explore`}"
+              className={`p-4 rounded-lg  z-20 ${
+                darkmode ? "text-white" : "to-blue"
+              } status status.explore Explore`}
             >
               Check Status <span className="icon-right"></span>
               {/* <span className="icon-right after"></span> */}
             </button>
-            <p className="text-white">Status: {status}</p>
+            <p className="">Status: {status}</p>
           </div>
         </div>
         <div className="h-full space-y-3 flex flex-col shadow-lg p-2 m-3">
@@ -159,12 +154,12 @@ const Home = () => {
             console.log(status, url, uuid);
             return (
               <div
-                className="   w-[600px] mb-5 items-center justify-center flex relative"
+                className="w-[600px] mb-5 items-center justify-center flex relative"
                 key={uuid}
               >
                 <div className="w-full h-fit">
                   {video_Fetched ? (
-                    <div className=" inset-0 flex justify-center flex-col text-white items-center">
+                    <div className=" inset-0 flex justify-center flex-col  items-center">
                       Video Generation in Progress...
                       <div className="flex items-center justify-center relative">
                         <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin">
@@ -175,7 +170,7 @@ const Home = () => {
                   ) : (
                     <div className="video-container mt-4 h-full p-4 justify-center flex flex-col items-center">
                       <div>
-                        <h1 className="text-white text-3xl lg:4xl">
+                        <h1 className=" text-3xl lg:4xl">
                           {success ? title : "Enter Text For Generating Video"}
                         </h1>
                       </div>

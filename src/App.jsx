@@ -22,8 +22,11 @@ import Loader from "./components/custom/Loader";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutStart, logoutSuccess } from "./app/features/AnimationSlice";
 import TexToImage from "./components/features/TextToImage";
+import CustomNavbar from "./components/custom/CustomNavbar";
 function App() {
-  const { LoggedIn, loading } = useSelector((state) => state.TextAnimation);
+  const { LoggedIn, loading, darkmode } = useSelector(
+    (state) => state.TextAnimation
+  );
 
   const dispatch = useDispatch();
 
@@ -69,9 +72,15 @@ function App() {
   }, []); // Only run this effect once after the component mounts
 
   return (
-    <>
+    <div
+      className={`${
+        darkmode
+          ? "bg-gradient-dark text-white"
+          : "bg-gradient-light text-black"
+      }`}
+    >
       <Router>
-        <Navbar />
+        <CustomNavbar />
         <Toaster
           position="top-center"
           reverseOrder={false}
@@ -120,7 +129,7 @@ function App() {
           />
           <Route
             exact
-            path="/logo-remover"
+            path="/background-remover"
             element={<ProtectedRoute element={LogoRemover} />}
           />
           <Route
@@ -148,7 +157,7 @@ function App() {
           )}{" "}
         </Routes>
       </Router>
-    </>
+    </div>
   );
 }
 

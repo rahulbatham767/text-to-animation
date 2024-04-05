@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useSelector } from "react-redux";
 export const TextForm = () => {
   const [text, setText] = useState("Enter Text Here..");
-
+  const { darkmode } = useSelector((state) => state.TextAnimation);
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText);
@@ -46,10 +47,9 @@ export const TextForm = () => {
   return (
     <>
       <div
-        className="flex shadow card mb-4 border container mx-auto p-5 rounded-lg m-10 h-full flex-wrap"
-        style={{
-          color: "white",
-        }}
+        className={`flex shadow-xl card mb-4 border ${
+          darkmode ? "text-white" : "text-black"
+        } container mx-auto p-5 rounded-lg m-10 h-full flex-wrap`}
       >
         <div className="container my-5 flex flex-wrap ">
           <div className="w-full md:w-1/2">
@@ -98,9 +98,13 @@ export const TextForm = () => {
             </div>
           </div>
 
-          <div className=" w-full md:w-1/2 p-2">
-            <h4 className="text-xl">Preview</h4>
-            <p>{text.length > 0 ? text : "Enter Something Here to Preview"}</p>
+          <div className=" w-full md:w-1/2">
+            <div className="ml-6">
+              <h4 className="text-xl">Preview</h4>
+              <p>
+                {text.length > 0 ? text : "Enter Something Here to Preview"}
+              </p>
+            </div>
           </div>
         </div>
       </div>

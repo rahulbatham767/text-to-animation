@@ -9,7 +9,7 @@ const VerticalCarousel = ({ imageUrl, success, check }) => {
       <div className="relative overflow-hidden inline-block  rounded-lg flex items-center justify-center">
         <div className=" lg:w-3/4 p-2 shadow-lg rounded-lg">
           {check ? (
-            <div>
+            <div className={`relative `}>
               <img
                 src={imageUrl}
                 alt="Your Image"
@@ -21,7 +21,7 @@ const VerticalCarousel = ({ imageUrl, success, check }) => {
               />{" "}
               <button
                 onClick={() => handleDownloadImage(imageUrl)}
-                className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+                className={`absolute right-2 bottom-2 bg-blue-500 hover:bg-blue-700  text-white font-bold py-2 px-2 rounded `}
               >
                 Download
               </button>

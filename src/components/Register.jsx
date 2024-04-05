@@ -21,7 +21,9 @@ const Register = () => {
       [name]: value,
     }));
   };
-  const { error, success } = useSelector((state) => state.TextAnimation);
+  const { error, success, darkmode } = useSelector(
+    (state) => state.TextAnimation
+  );
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -57,12 +59,16 @@ const Register = () => {
   };
 
   return (
-    <div className="container mx-auto mt-8 bg-gray-100 bg-opacity-50 p-4 rounded-lg">
-      <h2 className="text-3xl font-bold mb-4 text-white">Register Student</h2>
+    <div
+      className={`container mx-auto mt-8 ${
+        darkmode ? "bg-gray-800 text-white" : "bg-gray-100"
+      } bg-opacity-50 p-4 rounded-lg`}
+    >
+      <h2 className="text-3xl font-bold mb-4 ">Register Student</h2>
       <form onSubmit={handleSubmit} className="max-w-md mx-auto">
         <div className="mb-4">
           <label
-            className="block text-gray-800  text-lg font-semibold mb-2"
+            className="block   text-lg font-semibold mb-2"
             htmlFor="firstName"
           >
             First Name
@@ -74,13 +80,13 @@ const Register = () => {
             value={formData.firstname}
             onChange={handleChange}
             minLength={"3"}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow text-gray-800 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
+            className="block  text-lg font-semibold mb-2"
             htmlFor="lastName"
           >
             Last Name
@@ -92,15 +98,12 @@ const Register = () => {
             minLength={"3"}
             value={formData.lastname}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight text-gray-800 focus:outline-none focus:shadow-outline"
             required
           />
         </div>
         <div className="mb-4">
-          <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
-            htmlFor="email"
-          >
+          <label className="block text-lg font-semibold mb-2" htmlFor="email">
             Email
           </label>
           <input
@@ -109,13 +112,13 @@ const Register = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
         </div>
         <div className="mb-4">
           <label
-            className="block text-gray-800 text-lg font-semibold mb-2"
+            className="block  text-lg font-semibold mb-2"
             htmlFor="password"
           >
             Password
@@ -127,14 +130,14 @@ const Register = () => {
             minLength={"8"}
             value={formData.password}
             onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
             required
             autoComplete="true"
           />
         </div>
         <button
           type="submit"
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         >
           Register
         </button>
