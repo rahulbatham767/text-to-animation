@@ -24,7 +24,7 @@ const NavbarDropdown = () => {
         <FaBars />
       </div>
       {isDropdownOpen && (
-        <ul className="menu dropdown-content shadow-lg bg-base-100 rounded-box w-48 absolute">
+        <ul className="menu dropdown-content shadow-lg bg-base-100 rounded-box w-48  absolute">
           <li>
             <NavLink
               to="/home"

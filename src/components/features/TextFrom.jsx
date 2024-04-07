@@ -47,7 +47,7 @@ export const TextForm = () => {
   return (
     <>
       <div
-        className={`flex shadow-xl card mb-4 border ${
+        className={`flex shadow-xl card mb-4  ${
           darkmode ? "text-white" : "text-black"
         } container mx-auto p-5 rounded-lg m-10 h-full flex-wrap`}
       >
@@ -108,7 +108,7 @@ export const TextForm = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto pb-16 text-white">
+      <div className="container mx-auto pb-16 pl-4">
         <h3>Your text Summary</h3>
         <p>
           {

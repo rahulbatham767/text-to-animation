@@ -153,6 +153,7 @@ const AnimationSlice = createSlice({
     video_Fetched: false,
     show_video: [],
     imgData: [],
+    imgcheck: false,
 
     darkmode: true,
     imgfetch: false,
@@ -177,6 +178,9 @@ const AnimationSlice = createSlice({
     Toogle: (state, action) => {
       state.darkmode = !state.darkmode;
     },
+    CustomLoad: (state, action) => {
+      state.loading = action.payload;
+    },
   },
   extraReducers: (builder) =>
     builder
@@ -196,6 +200,7 @@ const AnimationSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
         state.success = false;
+        state.error = null;
       })
       .addCase(User_Register.fulfilled, (state, action) => {
         state.LoggedIn = true;
@@ -222,10 +227,7 @@ const AnimationSlice = createSlice({
       })
       .addCase(User_Feedback.pending, (state) => {
         state.loading = true;
-        state.fetch_Status = {
-          title: "",
-          uuid: "",
-        };
+
         state.success = false;
       })
       .addCase(User_Feedback.rejected, (state, action) => {
@@ -250,7 +252,6 @@ const AnimationSlice = createSlice({
       })
       .addCase(User_fetchVideo.pending, (state) => {
         state.loading = true;
-
         state.success = false;
       })
       .addCase(User_fetchVideo.rejected, (state, action) => {
@@ -261,11 +262,12 @@ const AnimationSlice = createSlice({
       })
       .addCase(User_fetch_Image.fulfilled, (state, action) => {
         // Handle feedback fulfilled
-        console.log(action.payload);
+
         state.success = true;
         state.imgData = action.payload;
         state.loading = false;
         state.imgfetch = true;
+        state.imgcheck = true;
       })
       .addCase(User_fetch_Image.pending, (state) => {
         state.loading = true;
@@ -275,6 +277,7 @@ const AnimationSlice = createSlice({
         state.error = action.payload;
         state.loading = false;
         state.success = false;
+        state.imgcheck = false;
       })
       .addCase(Get_Status.fulfilled, (state, action) => {
         // Handle feedback fulfilled
@@ -288,7 +291,6 @@ const AnimationSlice = createSlice({
       })
       .addCase(Get_Status.pending, (state) => {
         state.loading = true;
-        state.success = false;
       })
       .addCase(Get_Status.rejected, (state, action) => {
         state.error = action.payload;
@@ -313,6 +315,6 @@ const AnimationSlice = createSlice({
         state.success = false;
       }),
 });
-export const { logoutStart, logoutSuccess, Transmission, Toogle } =
+export const { logoutStart, logoutSuccess, Transmission, CustomLoad, Toogle } =
   AnimationSlice.actions;
 export default AnimationSlice.reducer;

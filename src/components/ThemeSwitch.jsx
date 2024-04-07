@@ -5,7 +5,8 @@ const ThemeSwitch = () => {
   const dispatch = useDispatch();
   const darkmode = useSelector((state) => state.TextAnimation.darkmode);
   const handleToggle = () => {
-    dispatch(Toogle()); // Dispatch the action creator
+    dispatch(Toogle());
+    // Dispatch the action creator
   };
 
   return (

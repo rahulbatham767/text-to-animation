@@ -31,12 +31,12 @@ export const fetchVideo = async (data) => {
     url: "https://runwayml.p.rapidapi.com/generate/text",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "38c23c836dmshbfb5617667f2003p1bcde0jsn0b2646dacc8c",
+      "X-RapidAPI-Key": "6ddce2cb15mshde3d1e0eb400649p1e8504jsn93acfdb0c330",
       "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
     },
     data: {
       text_prompt: data,
-      width: 768,
+      width: 1344,
       height: 768,
       motion: 5,
       seed: 0,
@@ -56,7 +56,7 @@ export const fetchImage = async (data) => {
     url: "https://text-to-image-dalle.p.rapidapi.com/generate/reality",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "45fbd3ece7msh480ff943f788f3ep1fbe7cjsnc31b0ca847ba",
+      "X-RapidAPI-Key": "6ddce2cb15mshde3d1e0eb400649p1e8504jsn93acfdb0c330",
       "X-RapidAPI-Host": "text-to-image-dalle.p.rapidapi.com",
     },
     data: {

@@ -1,22 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import axios from "axios";
-import { toast } from "react-hot-toast";
 import { FaSearch } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { User_fetch_Image } from "../../app/features/AnimationSlice";
 import cat from "../../assets/cat.png";
 import VerticalCarousel from "../custom/VerticalCarousel";
-import AnimatedText from "../custom/TextEffect";
+import toast from "react-hot-toast";
 
 const TexToImage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false);
-  const [backgroundImage, setBackgroundImage] = useState(false);
   const container = useRef();
 
-  const { imgData, success, imgfetch, darkmode } = useSelector(
+  const { imgData, success, darkmode, message, imgcheck } = useSelector(
     (state) => state.TextAnimation
   );
   const dispatch = useDispatch();
@@ -26,22 +21,18 @@ const TexToImage = () => {
   };
 
   const generateImageForCarousel = async (searchTerm) => {
-    dispatch(User_fetch_Image(searchTerm));
+    dispatch(User_fetch_Image(searchTerm))
+      .then((response) => {
+        if (response.status === "error") {
+          toast.error("Text did not pass content moderation.");
+        } else if (response.status === "success") {
+          toast.success("Reality image generation successful");
+        }
+      })
+      .catch((err) => toast.error(err));
+
     setIsGeneratingImage(false);
   };
-
-  useGSAP(
-    () => {
-      gsap
-        .fromTo(".text-move", { x: -300 }, { x: 0, duration: 1.5, rotate: 360 })
-        .then(() => {
-          const searchBar = document.querySelector(".animate-hidden");
-          searchBar.classList.remove("hidden");
-          gsap.to(".animate-hidden", { rotateX: true }, { duration: 1 });
-        });
-    },
-    { scope: container }
-  );
 
   return (
     <div
@@ -54,14 +45,17 @@ const TexToImage = () => {
         >
           <div className="flex flex-col justify-center items-center">
             <div className="mt-11">
-              <AnimatedText />
+              {/* <AnimatedText /> */}
+              <h1 className="text-5xl text-center">
+                Welcome To Text Image Maker
+              </h1>
             </div>
           </div>
           <div className="flex items-center flex-col">
-            <div className="relative flex items-center justify-center rounded-full overflow-hidden hidden animate-hidden bg-gray-100 px-4 py-2 shadow-sm mx-auto mt-20">
+            <div className="relative flex items-center justify-center rounded-full overflow-hidden  animate-hidden bg-gray-100 px-4 py-2 shadow-sm mx-auto mt-20">
               <input
                 type="text"
-                className="block w-full px-4 py-2 rounded-l-full border border-transparent focus:outline-none outline-none placeholder-gray-400"
+                className="block w-full px-4 py-2 rounded-l-full border text-black border-transparent focus:outline-none outline-none placeholder-gray-400 "
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearchChange}
@@ -81,7 +75,7 @@ const TexToImage = () => {
             </div>
             <div className="p-4">
               <div className="mt-4 h-full p-4">
-                {imgfetch ? (
+                {imgcheck ? (
                   <VerticalCarousel
                     imageUrl={imgData.image_url}
                     {...imgData}
@@ -90,7 +84,12 @@ const TexToImage = () => {
                 ) : (
                   <div className="card w-96 glass relative delay-20 hover:scale-110">
                     <figure>
-                      <img src={cat} alt="car!" />
+                      <img
+                        src={cat}
+                        alt="car!"
+                        // Lazy loading attribute
+                        className="rounded-xl"
+                      />
                     </figure>
                     <div className="card-actions justify-end absolute bottom-1 right-2">
                       <button className="btn btn-primary">Download</button>

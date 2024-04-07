@@ -8,10 +8,10 @@ const SearchBar = ({ navigate }) => {
     <div
       className={`bg-${
         darkmode ? "gray-800" : "gray-100"
-      } flex flex-col justify-center rounded-full`}
+      } flex flex-col justify-center rounded-full `}
     >
       <div className="relative w-full sm:max-w-2xl sm:mx-auto">
-        <div className="overflow-hidden z-0 rounded-full relative p-3">
+        <div className="overflow-hidden z-0 rounded-full relative p-2">
           <form
             role="form"
             className="relative flex z-50 bg-white rounded-full"

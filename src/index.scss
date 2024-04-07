@@ -45,21 +45,8 @@ body {
 }
 
 .bg-gradient-dark {
-  background-image: linear-gradient(
-    to bottom,
-    #000000,
-    #090909,
-    #111111,
-    #161616,
-    #1b1b1b,
-    #1e1e1e,
-    #222222,
-    #252525,
-    #282828,
-    #2c2c2c,
-    #2f2f2f,
-    #333333
-  );
+  background-color: #310e68;
+  background-image: linear-gradient(316deg, #310e68 0%, #5f0f40 74%);
 }
 #mybox:focus {
   box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
@@ -105,7 +92,7 @@ body {
   font-family: "Space Mono", monospace;
   letter-spacing: 1px;
   background: none;
-  color: white;
+  
   position: relative;
   outline: none;
   border: none;
@@ -143,7 +130,7 @@ body {
 
 .status:hover {
   cursor: pointer;
-  color: white;
+  color: rgb(128, 181, 206);
 }
 
 .status:hover:before {

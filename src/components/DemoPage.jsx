@@ -19,26 +19,39 @@ const DemoPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex items-center justify-center   p-16">
+    <div
+      className={`flex items-center justify-center   p-16 ${
+        darkmode ? "text-white" : "text-black"
+      }} `}
+    >
       <div className="w-full max-w-xl  px-4 flex pb-14 flex-col items-center justify-center">
         {/* Left side: Input field */}
-        <span className="text-5xl mb-6 font-semibold text-white">
-          {" "}
-          DEMO PAGE{" "}
-        </span>
+        <span className="text-5xl mb-6 font-bold "> HOMEPAGE </span>
         <div
           className={`flex flex-col w-full items-center justify-center ${
-            darkmode ? "dark" : ""
+            darkmode ? "text-white" : "text-black"
           }`}
         >
           <div className="">
-            <div className="h-full bg-black bg-opacity-50 rounded-lg p-4 dark:bg-gray-800">
-              <p className="text-white p-2 rounded-lg bg-gray-700 bg-opacity-80 dark:bg-opacity-80">
+            <div
+              className={`h-full  ${
+                darkmode
+                  ? "shadow-purple-500 shadow-sm"
+                  : " shadow-blue-300 shadow-lg spread-1 shadow-inset-2 s"
+              } bg-opacity-50  rounded-lg p-4 `}
+            >
+              <p
+                className={` p-2 rounded-lg ${
+                  darkmode
+                    ? "bg-purple-900 bg-opacity-30"
+                    : "bg-blue-200 bg-opacity-55"
+                } `}
+              >
                 Black Cat Flying in Basket
               </p>
             </div>
 
-            <div className="m-3 relative">
+            <div className="mt-4 relative">
               <SearchBar navigate={navigate} />
             </div>
           </div>
@@ -54,7 +67,7 @@ const DemoPage = () => {
               />{" "}
               <button
                 onClick={() => handleDownloadImage(cat)}
-                className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded"
+                className="absolute bottom-2 right-2 bg-blue-500 hover:bg-blue-700  font-bold py-2 px-2 rounded"
               >
                 Download
               </button>

@@ -1,27 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import axios from "axios";
+import React, { useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FaSearch } from "react-icons/fa";
-import VerticalCarousel from "./custom/VerticalCarousel";
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  Get_Status,
-  Transmission,
-  User_fetchVideo,
-  User_Show_videos,
-} from "../app/features/AnimationSlice";
-import Loader from "./custom/Loader";
-import {
-  handleDownloadImage,
-  videoeDownload,
-} from "./utils/handleDownloadImage";
-import { saveVideo } from "../app/features/Api";
-import { Cloudinary } from "@cloudinary/url-gen";
-import AnimatedText from "./custom/TextEffect";
-
+import { Get_Status, User_fetchVideo } from "../app/features/AnimationSlice";
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false); // Track image generation status
@@ -37,23 +19,6 @@ const Home = () => {
     (state) => state.TextAnimation
   );
   const status = useSelector((state) => state.TextAnimation.status);
-  const cloud = {
-    cloud_name: "dor9ze1rj",
-    preset: "text-to-animation",
-    api_key: "762452158475788",
-    api_secret: "Jqvh-06Lfo2jswSgZWX7t0pswJM",
-  };
-
-  const uploadCloud = async (videoUrl) => {
-    const api = `https://api.cloudinary.com/v1_1/${cloud.cloud_name}/video/upload?upload_preset=${cloud.preset}`;
-    const res = await axios.post(api, videoUrl);
-    const { secure_url } = res.data;
-
-    dispatch(saveVideo({ title: fetch_Status.title, url: secure_url }));
-
-    console.log(secure_url);
-    return secure_url;
-  };
 
   const dispatch = useDispatch();
   const videoData = [fetchedData];
@@ -61,7 +26,11 @@ const Home = () => {
   const Get_Video = async (searchTerm) => {
     console.log("get video");
     Settitle(searchTerm);
-    dispatch(User_fetchVideo(searchTerm));
+    dispatch(User_fetchVideo(searchTerm))
+      .then((response) => console.log(response))
+      .catch((err) => {
+        console.log(err);
+      });
   };
   // Assuming searchTerm and uuid are available here
 
@@ -70,30 +39,15 @@ const Home = () => {
   console.log(videoData);
   const Get_state = () => {
     console.log(fetch_Status);
-    dispatch(Get_Status(fetch_Status));
+    dispatch(Get_Status(fetch_Status)).then((response) => {
+      console.log(response);
+    });
     setVideoprogress(fetchedData.progress);
-  };
-
-  useGSAP(
-    () => {
-      // Slide in from left animation
-      gsap
-        .fromTo(".text-move", { x: -300 }, { x: 0, duration: 1.5, rotate: 360 })
-        .then(() => {
-          // Callback function after animation completes
-          const searchBar = document.querySelector(".animate-hidden");
-          searchBar.classList.remove("hidden");
-
-          gsap.to(".animate-hidden", { rotateX: true }, { duration: 1 });
-        });
-    },
-    { scope: container }
-  );
-
-  const SaveVideo = (url) => {
-    console.log("saveVideo");
-    videoeDownload(url);
-    dispatch(User_Show_videos(fetch_Status));
+    if (videoprogress === 1) {
+      toast.success("Video Generated Successfully...");
+    } else if (videoprogress === "failed") {
+      toast.error("Text did not pass content moderation.");
+    }
   };
 
   return (
@@ -103,10 +57,13 @@ const Home = () => {
       }`}
     >
       <div className="  flex items-center justify-center flex-col flex-wrap">
-        <div className="  flex flex-col  " ref={container}>
-          <AnimatedText overlay={false} />
-
-          <div className="relative flex items-center rounded-full overflow-hidden hidden animate-hidden bg-gray-100 px-4 py-2 shadow-sm  mx-auto mt-20">
+        <div
+          className="  flex flex-col items-center text-center "
+          ref={container}
+        >
+          {/* <AnimatedText overlay={false} /> */}
+          <h1 className="text-5xl ">Welcome To Text Animation Maker</h1>
+          <div className="relative flex items-center rounded-full overflow-hidden text-black animate-hidden bg-gray-100 px-4 py-2  mx-auto mt-20">
             <input
               type="text"
               className="block w-full px-4 py-2 rounded-l-full border border-transparent focus:outline-none outline-none placeholder-gray-400"
@@ -114,6 +71,7 @@ const Home = () => {
               value={searchTerm}
               onChange={handleSearchChange}
               minLength={"10"}
+              required
             />
             <button
               type="button"
@@ -140,7 +98,7 @@ const Home = () => {
               type="button"
               onClick={() => Get_state()}
               className={`p-4 rounded-lg  z-20 ${
-                darkmode ? "text-white" : "to-blue"
+                darkmode ? "text-white" : "text-black"
               } status status.explore Explore`}
             >
               Check Status <span className="icon-right"></span>
@@ -162,9 +120,7 @@ const Home = () => {
                     <div className=" inset-0 flex justify-center flex-col  items-center">
                       Video Generation in Progress...
                       <div className="flex items-center justify-center relative">
-                        <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin">
-                          {" "}
-                        </div>
+                        <div className="w-20 mt-4 h-16 border-t-4   rounded-full animate-spin"></div>
                       </div>
                     </div>
                   ) : (

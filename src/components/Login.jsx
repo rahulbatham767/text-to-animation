@@ -1,22 +1,19 @@
-// Login.js
-
-import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast from "react-hot-toast";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { User_Login } from "../app/features/AnimationSlice";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const { success, error, LoggedIn, darkmode } = useSelector(
-    (state) => state.TextAnimation
-  );
-  const navigate = useNavigate();
+
+  const { darkmode } = useSelector((state) => state.TextAnimation);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -27,26 +24,9 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Here you can add your logic to handle form submission
     console.log(formData);
+    dispatch(User_Login(formData));
 
-    dispatch(User_Login(formData))
-      .then((result) => {
-        // Check if the login was successful
-        if (result.payload && result.payload.success) {
-          navigate("/home");
-          console.log("login successful");
-          toast.success("User logged in successfully");
-        } else {
-          console.log("login failed");
-          toast.error("Please enter with correct credentials");
-        }
-      })
-      .catch((error) => {
-        console.error("Error occurred during login:", error);
-        // Handle error if needed
-      });
     // Reset the form
     setFormData({
       email: "",
@@ -55,53 +35,70 @@ const Login = () => {
   };
 
   return (
-    <div className="card   shadow-xl">
-      <div
-        className={`${
-          darkmode ? "text-white bg-gray-100" : "text-black"
-        } container mx-auto mt-8  bg-opacity-50 p-8 rounded-lg sm:w-1/2`}
-      >
-        <h2 className="text-3xl font-bold  mb-4">Login</h2>
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-          <div className="mb-6 ">
-            <label
-              className="block  text-lg font-semibold mb-2"
-              htmlFor="email"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="shadow appearance-none border  rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline "
-              required
-            />
-          </div>
-          <div className="mb-6">
-            <label className={`block  text-lg  mb-2`} htmlFor="password">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              minLength={8}
-              value={formData.password}
-              onChange={handleChange}
-              className={`shadow   appearance-none border rounded w-full py-3 px-4 leading-tight focus:outline-none focus:shadow-outline`}
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700  font-bold py-3 px-6 rounded focus:outline-none focus:shadow-outline"
+    <div className={`hero min-h-screen ${darkmode ? "dark" : ""}`}>
+      <div className="hero-content flex-col lg:flex-row-reverse">
+        <div className="text-center lg:text-left mb-8 lg:mb-0">
+          <h1
+            className={`text-4xl font-bold ${
+              darkmode ? "text-white" : "text-black"
+            }`}
           >
-            Login
-          </button>
-        </form>
+            Welcome to Dream To Reality
+          </h1>
+          <p className={`py-6 ${darkmode ? "text-gray-300" : "text-gray-600"}`}>
+            Please login to access your account and get ready to turn your
+            dreams into reality!
+          </p>
+        </div>
+        <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100 dark:bg-base-300">
+          <form onSubmit={handleSubmit} className="card-body">
+            <div className="form-control">
+              <label
+                className={`label ${darkmode ? "text-white" : "text-black"}`}
+              >
+                <span className="label-text">Email</span>
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="input input-bordered text-black"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label
+                className={`label ${darkmode ? "text-white" : "text-black"}`}
+              >
+                <span className="label-text">Password</span>
+              </label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="Password"
+                className="input input-bordered text-black"
+                required
+              />
+              <label
+                className={`label ${
+                  darkmode ? "text-gray-200" : "text-gray-700"
+                }`}
+              ></label>
+            </div>
+            <div className="form-control mt-6">
+              <button
+                type="submit"
+                className={`btn ${darkmode ? "btn-primary" : "btn-secondary"}`}
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

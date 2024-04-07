@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { User_Register } from "../app/features/AnimationSlice";
+import register from "../assets/register.svg";
+import toast from "react-hot-toast";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     firstname: "",
@@ -14,6 +15,7 @@ const Register = () => {
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -21,35 +23,29 @@ const Register = () => {
       [name]: value,
     }));
   };
-  const { error, success, darkmode } = useSelector(
-    (state) => state.TextAnimation
-  );
+
+  const { darkmode } = useSelector((state) => state.TextAnimation);
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     dispatch(User_Register(formData))
       .unwrap()
       .then((Response) => {
-        // Check if registration was successful
-        console.log(Response);
         if (Response.success) {
           navigate("/home");
           toast.success("User registered successfully");
-        } else {
-          toast.error(error); // Assuming result.message contains the error message
         }
       })
       .catch((error) => {
-        console.error("Error occurred during registration:", error.Response);
-        // Handle error if needed
-        if ((error = "Request failed with status code 409")) {
+        console.error("Error occurred during registration:", error);
+        if (error === "Request failed with status code 409") {
           toast.error("Email is already registered");
+        } else {
+          toast.error("An error occurred during registration");
         }
       });
 
-    // Here you can add your logic to handle form submission
-    console.log(formData);
-    // Reset the form
     setFormData({
       firstname: "",
       lastname: "",
@@ -60,88 +56,99 @@ const Register = () => {
 
   return (
     <div
-      className={`container mx-auto mt-8 ${
-        darkmode ? "bg-gray-800 text-white" : "bg-gray-100"
-      } bg-opacity-50 p-4 rounded-lg`}
+      className={`container mx-auto space-x-5 pb-8 mt-6 flex items-center justify-center  ${
+        darkmode ? "dark" : ""
+      }`}
     >
-      <h2 className="text-3xl font-bold mb-4 ">Register Student</h2>
-      <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-        <div className="mb-4">
-          <label
-            className="block   text-lg font-semibold mb-2"
-            htmlFor="firstName"
-          >
-            First Name
-          </label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstname"
-            value={formData.firstname}
-            onChange={handleChange}
-            minLength={"3"}
-            className="shadow text-gray-800 appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block  text-lg font-semibold mb-2"
-            htmlFor="lastName"
-          >
-            Last Name
-          </label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastname"
-            minLength={"3"}
-            value={formData.lastname}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight text-gray-800 focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2" htmlFor="email">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block  text-lg font-semibold mb-2"
-            htmlFor="password"
-          >
-            Password
-          </label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            minLength={"8"}
-            value={formData.password}
-            onChange={handleChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
-            required
-            autoComplete="true"
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-700  font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        >
+      {/* Registration Form */}
+      <div className="max-w-md w-full rounded-lg  shadow-lg bg-white dark:bg-gray-800 p-8">
+        <h2 className="text-3xl font-bold mb-4 text-center text-black">
           Register
-        </button>
-      </form>
+        </h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label
+              className="block text-sm text-black font-semibold mb-2"
+              htmlFor="firstname"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              placeholder="First Name"
+              className={`input input-bordered w-full ${
+                darkmode ? "text-black" : "text-black"
+              }`}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-sm text-black font-semibold mb-2"
+              htmlFor="lastname"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+              placeholder="Last Name"
+              className={`input input-bordered w-full ${
+                darkmode ? "text-black" : "text-black"
+              }`}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-sm text-black font-semibold mb-2"
+              htmlFor="email"
+            >
+              Email
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className={`input input-bordered w-full ${
+                darkmode ? "text-black" : "text-black"
+              }`}
+              required
+            />
+          </div>
+          <div className="mb-6">
+            <label
+              className="block text-black text-sm font-semibold mb-2"
+              htmlFor="password"
+            >
+              Password
+            </label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              minLength={8}
+              placeholder="Password"
+              className={`input input-bordered w-full ${
+                darkmode ? "text-black" : "text-black"
+              }`}
+              required
+            />
+          </div>
+          <button type="submit" className="btn btn-primary w-full">
+            Register
+          </button>
+        </form>
+      </div>
+      {/* Image */}
     </div>
   );
 };

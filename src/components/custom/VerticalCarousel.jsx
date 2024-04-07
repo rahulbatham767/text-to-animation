@@ -7,7 +7,7 @@ const VerticalCarousel = ({ imageUrl, success, check }) => {
   return (
     <div className=" p-4 ">
       <div className="relative overflow-hidden inline-block  rounded-lg flex items-center justify-center">
-        <div className=" lg:w-3/4 p-2 shadow-lg rounded-lg">
+        <div className=" lg:w-2/4 p-2 shadow-lg rounded-lg">
           {check ? (
             <div className={`relative `}>
               <img

@@ -71,6 +71,17 @@ function App() {
     };
   }, []); // Only run this effect once after the component mounts
 
+  4;
+
+  useEffect(() => {
+    if (darkmode) {
+      document.getElementById("root").classList.remove("bg-gradient-light");
+      document.getElementById("root").classList.add("bg-gradient-dark");
+    } else {
+      document.getElementById("root").classList.remove("bg-gradient-dark");
+      document.getElementById("root").classList.add("bg-gradient-light");
+    }
+  }, [darkmode]);
   return (
     <div
       className={`${

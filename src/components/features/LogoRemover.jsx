@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ShareButton from "../custom/ShareButton";
 import { useDispatch, useSelector } from "react-redux";
-import { User_Remove_bg } from "../../app/features/AnimationSlice";
+import { CustomLoad, User_Remove_bg } from "../../app/features/AnimationSlice";
 import axios from "axios";
 import { FaArrowRight } from "react-icons/fa";
 const LogoRemover = () => {
@@ -33,6 +33,7 @@ const LogoRemover = () => {
   };
   const dispatch = useDispatch();
   const handleRemoveLogo = async () => {
+    dispatch(CustomLoad(true));
     const formData = new FormData();
     formData.append("size", "auto");
     formData.append("image_file", blobimage);
@@ -52,6 +53,7 @@ const LogoRemover = () => {
 
       const url = URL.createObjectURL(new Blob([response.data]));
       setRemovedImage(url);
+      dispatch(CustomLoad(false));
     } catch (error) {
       console.error("Error removing logo:", error);
     }
