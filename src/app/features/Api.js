@@ -24,7 +24,7 @@ export const feedback = async (data) => {
 
   return response.data;
 };
-console.log(import.meta.env.VITE_DALLE_API);
+console.log(process.env._DALLE_API);
 
 export const fetchVideo = async (data) => {
   const options = {
