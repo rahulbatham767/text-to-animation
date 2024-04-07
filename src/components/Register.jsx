@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { User_Register } from "../app/features/AnimationSlice";
-import register from "../assets/register.svg";
 import toast from "react-hot-toast";
 
 const Register = () => {

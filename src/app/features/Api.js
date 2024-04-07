@@ -24,6 +24,7 @@ export const feedback = async (data) => {
 
   return response.data;
 };
+console.log(import.meta.env.VITE_DALLE_API);
 
 export const fetchVideo = async (data) => {
   const options = {
@@ -31,7 +32,7 @@ export const fetchVideo = async (data) => {
     url: "https://runwayml.p.rapidapi.com/generate/text",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "6ddce2cb15mshde3d1e0eb400649p1e8504jsn93acfdb0c330",
+      "X-RapidAPI-Key": import.meta.env.VITE_RUNWAYML_API,
       "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
     },
     data: {
@@ -56,7 +57,7 @@ export const fetchImage = async (data) => {
     url: "https://text-to-image-dalle.p.rapidapi.com/generate/reality",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": "6ddce2cb15mshde3d1e0eb400649p1e8504jsn93acfdb0c330",
+      "X-RapidAPI-Key": import.meta.env.VITE_DALLE_API,
       "X-RapidAPI-Host": "text-to-image-dalle.p.rapidapi.com",
     },
     data: {

@@ -1,6 +1,5 @@
 import "./App.css";
 import Home from "./components/Home";
-import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
   Routes,
@@ -9,7 +8,7 @@ import {
 } from "react-router-dom";
 import Register from "./components/Register";
 import Login from "./components/Login";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DemoPage from "./components/DemoPage";
 import DragAndDropTextFile from "./components/features/DragAndDropTextFile";

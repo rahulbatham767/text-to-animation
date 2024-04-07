@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Route, useNavigate, Navigate } from "react-router-dom";
+import React from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
 const ProtectedRoute = ({ element: Element, isAuthenticated, ...rest }) => {

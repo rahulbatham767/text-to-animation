@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
 import { Textarea, Button } from "react-daisyui";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";

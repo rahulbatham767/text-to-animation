@@ -1,36 +1,16 @@
 import React from "react";
 import {
-  EmailIcon,
   FacebookIcon,
-  FacebookMessengerIcon,
-  GabIcon,
-  HatenaIcon,
-  InstapaperIcon,
-  LineIcon,
-  LinkedinIcon,
-  LivejournalIcon,
-  MailruIcon,
-  OKIcon,
-  PinterestIcon,
-  PocketIcon,
   RedditIcon,
-  TelegramIcon,
-  TumblrIcon,
   TwitterIcon,
-  ViberIcon,
-  VKIcon,
-  WeiboIcon,
   WhatsappIcon,
-  WorkplaceIcon,
-  XIcon,
   FacebookShareButton,
   TwitterShareButton,
   WhatsappShareButton,
   RedditShareButton,
   // Import other desired share button components
 } from "react-share";
-const ShareButton = () => {
-  const imageUrl = "https://example.com/your-image.jpg";
+const ShareButton = ({ imageUrl }) => {
   return (
     <div className="share-buttons">
       <FacebookShareButton url={imageUrl} quote="Check out this awesome image!">

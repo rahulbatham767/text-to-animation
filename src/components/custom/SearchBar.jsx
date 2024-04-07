@@ -1,8 +1,20 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
 
 const SearchBar = ({ navigate }) => {
   const { darkmode } = useSelector((state) => state.TextAnimation);
+
+  const CustomToast = (darkmode) => {
+    return toast("Login now to unleash the creative potential! ", {
+      style: {
+        backgroundColor: darkmode ? "gray" : "skyblue",
+        fontFamily: "sans-serif",
+        color: darkmode ? "white" : "black",
+      },
+      autoClose: 5000,
+    });
+  };
   console.log(darkmode);
   return (
     <div
@@ -20,6 +32,14 @@ const SearchBar = ({ navigate }) => {
               type="text"
               placeholder="enter your search here"
               className="rounded-full flex-1 px-6 py-4 text-gray-700 focus:outline-none"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  navigate("/login");
+                  // Call CustomToast directly inside the event handler
+                  CustomToast(darkmode);
+                }
+              }}
             />
             <button
               className="bg-indigo-500 text-white rounded-full font-semibold px-8 py-4 hover:bg-indigo-400 focus:bg-indigo-600 focus:outline-none"

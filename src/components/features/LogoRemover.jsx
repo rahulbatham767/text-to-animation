@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import ShareButton from "../custom/ShareButton";
 import { useDispatch, useSelector } from "react-redux";
-import { CustomLoad, User_Remove_bg } from "../../app/features/AnimationSlice";
+import { CustomLoad } from "../../app/features/AnimationSlice";
 import axios from "axios";
-import { FaArrowRight } from "react-icons/fa";
+import toast from "react-hot-toast";
 const LogoRemover = () => {
   const [originalImage, setOriginalImage] = useState(null);
   const [removedImage, setRemovedImage] = useState(null);
   const [blobimage, setBlobimage] = useState("");
-  const key = "NdMJskCVeLg22ELMaZ4YeREt";
+
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -19,7 +19,7 @@ const LogoRemover = () => {
 
     reader.readAsDataURL(file);
   };
-  const { bg_data, darkmode } = useSelector((state) => state.TextAnimation);
+  const { darkmode } = useSelector((state) => state.TextAnimation);
   const handleImageDrop = (event) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
@@ -32,6 +32,7 @@ const LogoRemover = () => {
     reader.readAsDataURL(file);
   };
   const dispatch = useDispatch();
+
   const handleRemoveLogo = async () => {
     dispatch(CustomLoad(true));
     const formData = new FormData();
@@ -46,17 +47,19 @@ const LogoRemover = () => {
           responseType: "arraybuffer",
           headers: {
             "Content-Type": "multipart/form-data",
-            "X-Api-Key": "D4tfE55tN22vSKJzDLR4FzPt",
+            "X-Api-Key": import.meta.env.VITE_BG_REMOVER,
           },
         }
       );
 
       const url = URL.createObjectURL(new Blob([response.data]));
       setRemovedImage(url);
-      dispatch(CustomLoad(false));
+      toast.success("Background Removed Successfully");
     } catch (error) {
       console.error("Error removing logo:", error);
+      toast.error("Error removing logo:", error);
     }
+    dispatch(CustomLoad(false));
   };
 
   const handleDownload = () => {
@@ -65,23 +68,6 @@ const LogoRemover = () => {
     anchor.href = removedImage;
     anchor.download = "removed_logo.png";
     anchor.click();
-  };
-
-  const handleShare = (removedImage) => {
-    console.log("Removed Image:", removedImage);
-    if (navigator.share) {
-      navigator
-        .share({
-          title: "Share Image",
-          text: "Check out this image",
-          url: removedImage,
-        })
-        .then(() => console.log("Shared successfully"))
-        .catch((error) => console.error("Error sharing:", error));
-    } else {
-      console.log("Web Share API not supported");
-      // Provide a fallback option for browsers that do not support Web Share API
-    }
   };
 
   return (
@@ -115,15 +101,6 @@ const LogoRemover = () => {
             >
               <p>Drag & Drop Image Here</p>
             </div>
-
-            {/* {originalImage && !removedImage && (
-              <button
-                className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                onClick={handleRemoveLogo}
-              >
-                Remove Logo
-              </button>
-            )} */}
           </div>
         </div>
 
@@ -206,10 +183,21 @@ const LogoRemover = () => {
                       >
                         Download
                       </button>
+                      <button
+                        className="bg-blue-500 hover:bg-blue-700  font-bold py-2 px-3 text-sm rounded ml-3 bottom-1 "
+                        onClick={() => {
+                          setRemovedImage("");
+                          setOriginalImage("");
+                          setBlobimage("");
+                          toast.success("Image removed successfully");
+                        }}
+                      >
+                        Clear
+                      </button>
                     </div>
 
                     <div className="mt-3">
-                      <ShareButton />
+                      <ShareButton imageUrl={removedImage} />
                     </div>
                   </div>
                 </div>

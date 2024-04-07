@@ -10,7 +10,7 @@ const Login = () => {
     password: "",
   });
 
-  const { darkmode } = useSelector((state) => state.TextAnimation);
+  const { darkmode, message } = useSelector((state) => state.TextAnimation);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,17 +21,28 @@ const Login = () => {
       [name]: value,
     }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
-    dispatch(User_Login(formData));
 
-    // Reset the form
-    setFormData({
-      email: "",
-      password: "",
-    });
+    try {
+      const response = await dispatch(User_Login(formData));
+
+      const { success } = response.payload;
+      if (success) {
+        toast.success("Successfully logged in");
+      } else if (response.error) {
+        toast.error("Please Enter With Correct Credentials");
+      }
+      // Reset the form
+      setFormData({
+        email: "",
+        password: "",
+      });
+    } catch (error) {
+      console.error("Error logging in:", error);
+      toast.error("An error occurred while logging in");
+    }
   };
 
   return (

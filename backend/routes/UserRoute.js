@@ -99,14 +99,12 @@ router.post(
 
       if (!user) {
         success = false;
-        return res.status(404).json("Please login with correct credential");
+        return res.status(404).json({ success, message: "User not found" });
       }
       const passwordCompare = await bcrypt.compare(password, user.password);
 
       if (!passwordCompare) {
-        return res
-          .status(400)
-          .json("Please try to login with correct credential");
+        return res.status(401).json({ success, message: "Incorrect password" });
       }
 
       const data = {

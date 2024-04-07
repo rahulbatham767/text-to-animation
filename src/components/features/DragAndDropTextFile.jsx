@@ -9,28 +9,33 @@ const DragAndDropTextFile = () => {
   const dispatch = useDispatch();
   const { imgData, darkmode } = useSelector((state) => state.TextAnimation);
 
-  const handleDrop = (e) => {
+  const handleDrop = async (e) => {
     e.preventDefault();
     const file = e.dataTransfer.files[0];
     const reader = new FileReader();
-    reader.onload = (e) => {
+
+    reader.onload = async (e) => {
       const content = e.target.result;
       setFileContent(content);
 
       // Dispatch action to fetch image data using file content
-      dispatch(User_fetch_Image(content))
-        .then((response) => {
-          console.log(response);
-          if (response.status === "error") {
-            toast.error(response.message);
-          } else if (response.status === "success") {
-            toast.success("Image Generated Succesfully..");
-          }
-          setImageUrl(imgData.image_url); // Assuming imgData contains image URL
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      try {
+        const response = await dispatch(User_fetch_Image(content));
+        console.log(response);
+
+        const { status, message, image_url } = response.payload;
+
+        if (status === "error") {
+          toast.error(message);
+        } else if (status === "success") {
+          toast.success(message);
+        }
+
+        setImageUrl(image_url);
+      } catch (err) {
+        console.error("Error dispatching User_fetch_Image:", err);
+        toast.error("Error fetching image");
+      }
       // For demo purposes, set a placeholder image URL
     };
 

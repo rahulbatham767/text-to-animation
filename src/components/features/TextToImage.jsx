@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { User_fetch_Image } from "../../app/features/AnimationSlice";
 import cat from "../../assets/cat.png";
+
 import VerticalCarousel from "../custom/VerticalCarousel";
 import toast from "react-hot-toast";
 
@@ -21,17 +22,21 @@ const TexToImage = () => {
   };
 
   const generateImageForCarousel = async (searchTerm) => {
-    dispatch(User_fetch_Image(searchTerm))
-      .then((response) => {
-        if (response.status === "error") {
-          toast.error("Text did not pass content moderation.");
-        } else if (response.status === "success") {
-          toast.success("Reality image generation successful");
-        }
-      })
-      .catch((err) => toast.error(err));
+    try {
+      const response = await dispatch(User_fetch_Image(searchTerm));
 
-    setIsGeneratingImage(false);
+      // Accessing payload values
+      const { image_url, message, status } = response.payload;
+
+      // Displaying toast based on the status
+      if (status === "success") {
+        toast.success(message);
+      } else {
+        toast.error(message);
+      }
+    } catch (err) {
+      toast.error(err);
+    }
   };
 
   return (
@@ -59,6 +64,14 @@ const TexToImage = () => {
                 placeholder="Search..."
                 value={searchTerm}
                 onChange={handleSearchChange}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    () => generateImageForCarousel(searchTerm);
+                    // Call CustomToast directly inside the event handler
+                    CustomToast(darkmode);
+                  }
+                }}
               />
               <button
                 type="button"

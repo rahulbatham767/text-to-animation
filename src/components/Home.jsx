@@ -24,29 +24,49 @@ const Home = () => {
   const videoData = [fetchedData];
 
   const Get_Video = async (searchTerm) => {
-    console.log("get video");
-    Settitle(searchTerm);
-    dispatch(User_fetchVideo(searchTerm))
-      .then((response) => console.log(response))
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      console.log("get video");
+      Settitle(searchTerm);
+      const response = await dispatch(User_fetchVideo(searchTerm));
+      const { status } = response.payload;
+
+      if (status === "Task is in queue") {
+        toast.success("Video Generation in Progress...");
+      } else if (status === "failed") {
+        toast.error("You have exceeded the MONTHLY quota for Generate Video");
+      }
+    } catch (error) {
+      console.error("Error fetching video:", error);
+      toast.error("Error fetching video");
+    }
   };
   // Assuming searchTerm and uuid are available here
 
   // Call checkStatusRecursively after dispatching User_fetchVideo
 
   console.log(videoData);
-  const Get_state = () => {
-    console.log(fetch_Status);
-    dispatch(Get_Status(fetch_Status)).then((response) => {
+  const Get_state = async () => {
+    try {
+      console.log(fetch_Status);
+      const response = await dispatch(Get_Status(fetch_Status));
+
       console.log(response);
-    });
-    setVideoprogress(fetchedData.progress);
-    if (videoprogress === 1) {
-      toast.success("Video Generated Successfully...");
-    } else if (videoprogress === "failed") {
-      toast.error("Text did not pass content moderation.");
+
+      // Assuming response contains status and progress information in payload
+      const { status, progress } = response.payload;
+
+      // Set video progress state
+      setVideoprogress(progress);
+
+      // Display toast message based on video progress
+      if (progress === 1) {
+        toast.success("Video Generated Successfully...");
+      } else if (progress === "failed") {
+        toast.error("Text did not pass content moderation.");
+      }
+    } catch (error) {
+      console.error("Error fetching video status:", error);
+      toast.error("Error fetching video status");
     }
   };
 
@@ -72,6 +92,16 @@ const Home = () => {
               onChange={handleSearchChange}
               minLength={"10"}
               required
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault(); // Prevent the default form submission behavior
+                  if (searchTerm.length === 0) {
+                    toast.error("Enter Some Text to Generate a Video");
+                  } else {
+                    Get_Video(searchTerm);
+                  }
+                }
+              }}
             />
             <button
               type="button"

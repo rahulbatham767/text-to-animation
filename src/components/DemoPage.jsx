@@ -1,21 +1,13 @@
 import React, { useState } from "react";
-import { FaSearch } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import cat from "../assets/cat.png";
 import { handleDownloadImage } from "./utils/handleDownloadImage";
 import SearchBar from "./custom/SearchBar";
 import { useSelector } from "react-redux";
 const DemoPage = () => {
-  const [isHovered, setIsHovered] = useState(false);
   const { darkmode } = useSelector((state) => state.TextAnimation); // Assuming your dark mode state is in Redux store
-
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  const dalleApiKey = import.meta.env.VITE_DALLE_API;
+  console.log(dalleApiKey);
   const navigate = useNavigate();
 
   return (
