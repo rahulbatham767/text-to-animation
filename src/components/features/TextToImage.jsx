@@ -90,7 +90,7 @@ const TexToImage = () => {
               <div className="mt-4 h-full p-4">
                 {imgcheck ? (
                   <VerticalCarousel
-                    imageUrl={imgData.image_url}
+                    imageUrl={imgData?.image_url}
                     {...imgData}
                     check={success}
                   />
