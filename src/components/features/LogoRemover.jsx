@@ -47,7 +47,7 @@ const LogoRemover = () => {
           responseType: "arraybuffer",
           headers: {
             "Content-Type": "multipart/form-data",
-            "X-Api-Key": import.meta.env.VITE_BG_REMOVER,
+            "X-Api-Key": import.meta.env.BG_REMOVER,
           },
         }
       );
