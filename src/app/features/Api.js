@@ -57,7 +57,7 @@ export const fetchImage = async (data) => {
     url: "https://text-to-image-dalle.p.rapidapi.com/generate/reality",
     headers: {
       "content-type": "application/json",
-      "X-RapidAPI-Key": import.meta.env.DALLE_API,
+      "X-RapidAPI-Key": process.env.DALLE_API,
       "X-RapidAPI-Host": "text-to-image-dalle.p.rapidapi.com",
     },
     data: {
