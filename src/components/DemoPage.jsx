@@ -18,7 +18,14 @@ const DemoPage = () => {
     >
       <div className="w-full max-w-xl  px-4 flex pb-14 flex-col items-center justify-center">
         {/* Left side: Input field */}
-        <span className="text-5xl mb-6 font-bold "> HOMEPAGE </span>
+        <span
+          className={`text-5xl mb-6 font-bold ${
+            darkmode ? "text-white" : "text-black"
+          }`}
+        >
+          {" "}
+          HOMEPAGE{" "}
+        </span>
         <div
           className={`flex flex-col w-full items-center justify-center ${
             darkmode ? "text-white" : "text-black"

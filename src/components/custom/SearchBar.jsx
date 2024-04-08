@@ -28,7 +28,9 @@ const SearchBar = ({ navigate }) => {
               type="text"
               placeholder="enter your search here"
               className={`rounded-full flex-1 px-6 py-4 ${
-                darkmode ? " bg-purple text-black" : "bg-white text-black"
+                darkmode
+                  ? " bg-purple text-blue-700 font-semibold"
+                  : "bg-white text-blue-700 font-semibold"
               } focus:outline-none`}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {

@@ -82,13 +82,7 @@ function App() {
     }
   }, [darkmode]);
   return (
-    <div
-      className={`${
-        darkmode
-          ? "bg-gradient-dark text-white"
-          : "bg-gradient-light text-black"
-      }`}
-    >
+    <div>
       <Router>
         <CustomNavbar />
         <Toaster
