@@ -6,6 +6,7 @@ import cat from "../../assets/cat.png";
 
 import VerticalCarousel from "../custom/VerticalCarousel";
 import toast from "react-hot-toast";
+import ShareButton from "../custom/ShareButton";
 
 const TexToImage = () => {
   const [searchTerm, setSearchTerm] = useState("");
