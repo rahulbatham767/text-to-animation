@@ -17,11 +17,7 @@ const SearchBar = ({ navigate }) => {
   };
   console.log(darkmode);
   return (
-    <div
-      className={`bg-${
-        darkmode ? "gray-800" : "gray-100"
-      } flex flex-col justify-center rounded-full `}
-    >
+    <div className={`flex flex-col justify-center rounded-full `}>
       <div className="relative w-full sm:max-w-2xl sm:mx-auto">
         <div className="overflow-hidden z-0 rounded-full relative p-2">
           <form
@@ -31,7 +27,9 @@ const SearchBar = ({ navigate }) => {
             <input
               type="text"
               placeholder="enter your search here"
-              className="rounded-full flex-1 px-6 py-4 text-gray-700 focus:outline-none"
+              className={`rounded-full flex-1 px-6 py-4 ${
+                darkmode ? " bg-purple text-black" : "bg-white text-black"
+              } focus:outline-none`}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   e.preventDefault();
