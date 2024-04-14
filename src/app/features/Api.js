@@ -53,15 +53,15 @@ export const fetchVideo = async (data) => {
 
 export const fetchImage = async (data) => {
   const options = {
-    method: "POST",
-    url: "https://text-to-image-dalle.p.rapidapi.com/generate/reality",
-    headers: {
-      "content-type": "application/json",
-      "X-RapidAPI-Key": import.meta.env.VITE_DALLE_API,
-      "X-RapidAPI-Host": "text-to-image-dalle.p.rapidapi.com",
+    method: "GET",
+    url: "https://text-to-image7.p.rapidapi.com/",
+    params: {
+      prompt: data,
+      batch_size: "1",
     },
-    data: {
-      text_query: data,
+    headers: {
+      "X-RapidAPI-Key": import.meta.env.VITE_DALLE_API,
+      "X-RapidAPI-Host": "text-to-image7.p.rapidapi.com",
     },
   };
 

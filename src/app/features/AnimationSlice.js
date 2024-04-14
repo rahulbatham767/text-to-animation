@@ -264,7 +264,7 @@ const AnimationSlice = createSlice({
         // Handle feedback fulfilled
 
         state.success = true;
-        state.imgData = action.payload;
+        state.imgData = action.payload.data[0];
         state.loading = false;
         state.imgfetch = true;
         state.imgcheck = true;

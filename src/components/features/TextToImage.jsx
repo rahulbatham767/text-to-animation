@@ -27,13 +27,16 @@ const TexToImage = () => {
       const response = await dispatch(User_fetch_Image(searchTerm));
 
       // Accessing payload values
-      const { image_url, message, status } = response.payload;
+      const { data } = response.payload;
+      console.log(response.payload);
+      console.log(imgData);
+      console.log(data[0]);
 
       // Displaying toast based on the status
-      if (status === "success") {
-        toast.success(message);
-      } else {
-        toast.error(message);
+      if (data) {
+        toast.success("Image Generated Successfully");
+      } else if (!data) {
+        toast.error("Image not found");
       }
     } catch (err) {
       toast.error(err);
@@ -91,7 +94,7 @@ const TexToImage = () => {
               <div className="mt-4 h-full p-4">
                 {imgcheck ? (
                   <VerticalCarousel
-                    imageUrl={imgData?.image_url}
+                    imageUrl={imgData}
                     {...imgData}
                     check={success}
                   />
