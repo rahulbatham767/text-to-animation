@@ -7,6 +7,7 @@ import cat from "../../assets/cat.png";
 import VerticalCarousel from "../custom/VerticalCarousel";
 import toast from "react-hot-toast";
 import ShareButton from "../custom/ShareButton";
+import { handleDownloadImage } from "../utils/handleDownloadImage";
 
 const TexToImage = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,21 +27,15 @@ const TexToImage = () => {
     try {
       const response = await dispatch(User_fetch_Image(searchTerm));
 
-      // Check if response is valid and contains payload
-      if (response && response.payload) {
-        const { data } = response.payload;
+      // Accessing payload values
+      const { url, message, status } = response.payload;
 
-        // Check if data is valid and contains at least one element
-        if (data && data.length > 0) {
-          // Displaying toast based on the status
-          toast.success("Image Generated Successfully");
-          return; // Exit function early if everything is successful
-        }
+      // Displaying toast based on the status
+      if (status === "success") {
+        toast.success("Image Generated Successfully");
       }
-      // If any of the checks fail, show error toast
-      toast.error("Failed to generate image. Invalid response data.");
     } catch (err) {
-      toast.error("An error occurred while generating image: " + err.message);
+      toast.error(err);
     }
   };
 
@@ -93,22 +88,29 @@ const TexToImage = () => {
             </div>
             <div className="p-4">
               <div className="mt-4 h-full p-4">
-                {imgcheck &&
-                imgData &&
-                imgData.data &&
-                imgData.data.length > 0 ? (
+                {imgcheck ? (
                   <VerticalCarousel
-                    imageUrl={imgData.data[0]}
+                    imageUrl={imgData?.url}
                     {...imgData}
                     check={success}
                   />
                 ) : (
                   <div className="card w-96 glass relative delay-20 hover:scale-110">
                     <figure>
-                      <img src={cat} alt="car!" className="rounded-xl" />
+                      <img
+                        src={cat}
+                        alt="car!"
+                        // Lazy loading attribute
+                        className="rounded-xl"
+                      />
                     </figure>
                     <div className="card-actions justify-end absolute bottom-1 right-2">
-                      <button className="btn btn-primary">Download</button>
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleDownloadImage(cat)}
+                      >
+                        Download
+                      </button>
                     </div>
                   </div>
                 )}

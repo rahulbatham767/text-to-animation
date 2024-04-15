@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { User_fetch_Image } from "../../app/features/AnimationSlice";
 import toast from "react-hot-toast";
+import { handleDownloadImage } from "../utils/handleDownloadImage";
 
 const DragAndDropTextFile = () => {
   const [fileContent, setFileContent] = useState("");
@@ -23,15 +24,15 @@ const DragAndDropTextFile = () => {
         const response = await dispatch(User_fetch_Image(content));
         console.log(response);
 
-        const { status, message, image_url } = response.payload;
+        const { status, message, url } = response.payload;
 
         if (status === "error") {
           toast.error(message);
         } else if (status === "success") {
-          toast.success(message);
+          toast.success("Image Generated Successfully");
         }
 
-        setImageUrl(image_url);
+        setImageUrl(url);
       } catch (err) {
         console.error("Error dispatching User_fetch_Image:", err);
         toast.error("Error fetching image");
@@ -83,11 +84,21 @@ const DragAndDropTextFile = () => {
         }   rounded-lg opacity-55`}
       >
         {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="Image"
-            className="w-64 h-64 object-cover rounded-lg"
-          />
+          <div className="relative">
+            <img
+              src={imageUrl}
+              alt="Image"
+              className="w-64 h-64 object-cover rounded-lg"
+            />
+            <div className="card-actions justify-end absolute bottom-1 right-2">
+              <button
+                className="btn btn-primary"
+                onClick={() => handleDownloadImage(imageUrl)}
+              >
+                Download
+              </button>
+            </div>
+          </div>
         ) : (
           <div
             className={`relative z-500 w-5/6 ${

@@ -4,6 +4,7 @@ import { FaSearch } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Get_Status, User_fetchVideo } from "../app/features/AnimationSlice";
+import { videoeDownload } from "./utils/handleDownloadImage";
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isGeneratingImage, setIsGeneratingImage] = useState(false); // Track image generation status
@@ -53,7 +54,7 @@ const Home = () => {
       console.log(response);
 
       // Assuming response contains status and progress information in payload
-      const { status, progress } = response.payload;
+      const { status, progress, message } = response.payload;
 
       // Set video progress state
       setVideoprogress(progress);
@@ -63,6 +64,10 @@ const Home = () => {
         toast.success("Video Generated Successfully...");
       } else if (progress === "failed") {
         toast.error("Text did not pass content moderation.");
+      } else if (message) {
+        toast.error(message);
+      } else if (videoprogress === "NaN") {
+        toast.error("Text did not pass content moderation");
       }
     } catch (error) {
       console.error("Error fetching video status:", error);
@@ -175,7 +180,7 @@ const Home = () => {
                             }}
                             role="progressbar"
                           >
-                            {Math.floor(videoprogress * 100)}
+                            {Math.floor(videoprogress * 100)}%
                           </div>
                         )}
                         <div className="button-container-3 mt-2">
@@ -183,7 +188,7 @@ const Home = () => {
                           <button
                             type="button"
                             name="Hover"
-                            onClick={() => SaveVideo(url)}
+                            onClick={() => videoeDownload(url)}
                           >
                             Download
                           </button>

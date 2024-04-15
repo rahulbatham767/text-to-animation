@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { User_fetch_Image } from "../../app/features/AnimationSlice";
 export const TextForm = () => {
   const [text, setText] = useState("Enter Text Here..");
-  const { darkmode } = useSelector((state) => state.TextAnimation);
+  const { darkmode, imgData } = useSelector((state) => state.TextAnimation);
+  const [generatedImage, setGeneratedImage] = useState(false);
   const handleUpClick = () => {
     let newText = text.toUpperCase();
     setText(newText);
@@ -28,6 +30,7 @@ export const TextForm = () => {
 
   const handleClear = () => {
     setText("");
+    setGeneratedImage(false);
     toast.success("Clear");
   };
 
@@ -43,7 +46,7 @@ export const TextForm = () => {
     navigator.clipboard.writeText(text);
     toast.success("Text copied successfully");
   };
-
+  const dispatch = useDispatch();
   return (
     <>
       <div
@@ -85,9 +88,16 @@ export const TextForm = () => {
               </button>
               <button
                 className="bg-blue-500 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1 my-1 poppins-regular"
-                onClick={handleCopy}
+                onClick={async () => {
+                  const response = await dispatch(User_fetch_Image(text));
+                  const { url, status } = response.payload;
+                  if (status === "success") {
+                    toast.success("Image Generated Successfully");
+                  }
+                  setGeneratedImage(url);
+                }}
               >
-                Copy Text
+                Generate Image
               </button>
               <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1 my-1 poppins-regular"
@@ -101,14 +111,22 @@ export const TextForm = () => {
           <div className=" w-full md:w-1/2">
             <div className="ml-6">
               <h4 className="text-xl">Preview</h4>
-              <p>
-                {text.length > 0 ? text : "Enter Something Here to Preview"}
-              </p>
+              {!generatedImage ? (
+                <p>
+                  {text.length > 0 ? text : "Enter Something Here to Preview"}
+                </p>
+              ) : (
+                <img src={generatedImage} alt={text} />
+              )}
             </div>
           </div>
         </div>
       </div>
-      <div className="container mx-auto pb-16 pl-4">
+      <div
+        className={`container mx-auto pb-16 pl-4 ${
+          darkmode ? "text-white" : "text-black"
+        } `}
+      >
         <h3>Your text Summary</h3>
         <p>
           {
