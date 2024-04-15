@@ -34,7 +34,7 @@ const Navbar = () => {
   return (
     <nav
       className={`${
-        darkmode ? "bg-gray-800 text-white" : "bg-base-100 text-black"
+        darkmode ? "bg-gray-800 text-white" : " text-black"
       }  p-4 text-lg`}
     >
       <div className=" mx-auto">

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaBars } from "react-icons/fa";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 const NavbarDropdown = () => {
@@ -13,8 +14,13 @@ const NavbarDropdown = () => {
     setIsDropdownOpen(false);
   };
 
+  const { darkmode } = useSelector((state) => state.TextAnimation);
   return (
-    <div className="dropdown lg:hidden">
+    <div
+      className={`dropdown lg:hidden ${
+        darkmode ? "focus-within:text-black" : "text-blue"
+      }`}
+    >
       <div
         tabIndex="0"
         role="button"
