@@ -44,7 +44,7 @@ const FeedbackPage = () => {
       .then((Response) => {
         console.log(Response);
         if (success) {
-          toast.success(message);
+          toast.success("Feedback successfully Submitted");
         }
       })
       .catch((err) => {
