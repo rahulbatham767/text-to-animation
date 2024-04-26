@@ -1,8 +1,10 @@
-# React + Vite
+Frontend
+Clone the Project: If you haven't already, clone the project repository to your local machine.
+Install Dependencies: Navigate to the project directory in your terminal and run npm install or yarn to install all the necessary dependencies listed in the package.json file.
+Run the Development Server: Once the dependencies are installed, you can start the development server by command npm run dev
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+Backend
+You don't need to run the backend server because the backend API is already hosted on Vercel. However, if you want to run it, go to the backend folder and run the following commands: "npm install" and then "npm run start".
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
