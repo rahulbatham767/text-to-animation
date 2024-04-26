@@ -107,7 +107,7 @@ export const Get_Status = createAsyncThunk(
         uuid: uuid,
       },
       headers: {
-        "X-RapidAPI-Key": "ed8f46302dmsh1db6a3e079aec90p16e316jsnaf351c7f69ce",
+        "X-RapidAPI-Key": "6ddce2cb15mshde3d1e0eb400649p1e8504jsn93acfdb0c330",
         "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
       },
     };
