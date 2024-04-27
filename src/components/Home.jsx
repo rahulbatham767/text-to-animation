@@ -143,12 +143,12 @@ const Home = () => {
           </div>
         </div>
         <div className="h-full space-y-3 flex flex-col shadow-lg p-2 m-3">
-          {videoData.map(({ status, url, uuid }) => {
+          {videoData.map(({ status, url, uuid }, index) => {
             console.log(status, url, uuid);
             return (
               <div
                 className="w-[600px] mb-5 items-center justify-center flex relative"
-                key={uuid}
+                key={index}
               >
                 <div className="w-full h-fit">
                   {video_Fetched ? (

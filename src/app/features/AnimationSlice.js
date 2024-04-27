@@ -107,7 +107,7 @@ export const Get_Status = createAsyncThunk(
         uuid: uuid,
       },
       headers: {
-        "X-RapidAPI-Key": "e8e4c1dcedmsh369524357e66c8ep11a2a1jsnf606d4997627",
+        "X-RapidAPI-Key": import.meta.env.VITE_RUNWAYML_API,
         "X-RapidAPI-Host": "runwayml.p.rapidapi.com",
       },
     };
@@ -239,6 +239,7 @@ const AnimationSlice = createSlice({
         // Handle feedback fulfilled
         console.log(action.payload);
         state.video_Fetched = true;
+        state.fetchedData = [];
         state.success = true;
         state.taskQueue.push(action.payload);
         state.status = "task in queue";
